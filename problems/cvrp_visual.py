@@ -4,22 +4,22 @@ sys.path.append("./")
 
 import matplotlib.pyplot as plt
 
-from cvrp_data import main_cvrp, create_data_model
+from instances_problems import create_data_solution_cvrp, create_data_model_cvrp
 from services.draw_funtions import *
 from services.draw_routes import draw_cvrp_route
-from classes.depot import Depto
-from classes.vehicle_routing_problem_classes import CVRP
+from classes.vehicle_routing_problem_classes import Depto, CVRP
 
 
 # # Crear el modelo de datos
-data = create_data_model()
+data = create_data_model_cvrp()
+solution = create_data_solution_cvrp()
 
 # Crear instancia de la clase TSP con la instancia de Depto, datos de lugares y la ruta
 cvrp_problem = CVRP(
-    Depto(data["locations"][data["deposito"]], data["deposito"]),
+    Depto(data["locations"][data["depot"]], data["depot"]),
     data["locations"],
-    data["demanda"],
-    main_cvrp(),
+    data["demand"],
+    solution["vehicle_routes_mapping"],
 )
 
 

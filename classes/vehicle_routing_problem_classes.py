@@ -1,4 +1,13 @@
-from .depot import Depto
+class Depto:
+    def __init__(self, data: tuple, index: int):
+        self.data = data
+        self.index = index
+
+    def get_depot_name(self):
+        return self.data[2]
+
+    def get_depot_coordinates(self):
+        return self.data[:2]
 
 
 class VehicleRoutingProblem:
@@ -10,7 +19,7 @@ class VehicleRoutingProblem:
 
 
 class TSP(VehicleRoutingProblem):
-    def __init__(self, depot: Depto, locations: list, route: list):
+    def __init__(self, depot: Depto, locations: list, route: dict):
         super().__init__(depot, locations, route=route)
 
 
