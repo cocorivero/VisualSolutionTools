@@ -52,26 +52,6 @@ def draw_locations(locations, demands=None):
             )
 
 
-# def draw_locations(locations, demands=None):
-#     for i, (location) in enumerate(zip(locations), start=1):
-# x = location[0]
-# y = location[1]
-# plt.plot(x, y, marker="o", markersize=15, color="black")
-# plt.plot(x, y, marker="o", markersize=12, color="white")
-# plt.text(x, y, str(i), fontsize=8, ha="center", va="center")
-
-# if demands is not None:
-#     plt.text(
-#         x,
-#         y - 0.5,
-#         str(demands[i]),
-#         fontsize=8,
-#         ha="center",
-#         va="center",
-#         color="blue",
-#     )
-
-
 # Crear una leyenda de ciudades con sus índices y nombres
 def draw_legend(locations):
     city_legend = [f"{index}: {city}" for index, (_, _, city) in enumerate(locations)]
