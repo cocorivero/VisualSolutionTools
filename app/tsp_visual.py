@@ -4,47 +4,64 @@ sys.path.append("./")
 
 import matplotlib.pyplot as plt
 
+from problems.tsp.data_handling import process_files
 from instances_problems import create_data_model_tsp, create_data_solution_tsp
 from services.draw_funtions import *
 from services.draw_routes import draw_tsp_route
-from classes.vehicle_routing_problem_classes import Depto, TSP
+from classes.tsp import TSP
+from classes.depto import Depto
 
+# Guardar en variables individuales los datos de cada instancia
+for filename, data in process_files().items():
+    locations = data["locations"]
+    num_vehicles = data["num_vehicles"]
+    depot_index = data["depot"]
 
-# Crear el modelo de datos
-data = create_data_model_tsp()
+depot = Depto(locations[depot_index], depot_index)
+
 solution = create_data_solution_tsp()
 
 # Crear instancia de la clase TSP con la instancia de Depto, datos de lugares y la ruta
 tsp_problem = TSP(
-    Depto(data["locations"][data["depot"]], data["depot"]),
-    data["locations"],
+    depot,
+    locations,
     solution["route"],
 )
 
 
-def plot_nodes_and_route(depot: Depto, locations, route):
-    # Graficar las ciudades y la ruta
-    plt.figure("Problema del Viajante de Comercio", figsize=(8, 6))
+import sys
 
-    # Dibujar la ruta con flechas y los índices de los lugares
-    draw_tsp_route(locations, route)
+sys.path.append("./")
 
-    # Dibujar el depósito
-    # draw_deposit(tsp_problem.depot.data, tsp_problem.depot.index)
-    draw_deposit(depot.data, depot.index)
+import matplotlib.pyplot as plt
 
-    # Dibujar los demás lugares como círculos con los índices en su interior
-    draw_locations(filter_locations(locations, depot.index))
-
-    # Crear la leyenda de la ciudad correspondiente a cada índice
-    # draw_legend(locations)
-
-    # Configurar el gráfico
-    draw_graph("Coordinate X", "Coordinate Y", "Travelling Salesperson Problem")
+from problems.tsp.data_handling import process_files
+from instances_problems import create_data_model_tsp, create_data_solution_tsp
+from services.draw_funtions import *
+from services.draw_routes import draw_tsp_route
+from classes.tsp import TSP
+from classes.depto import Depto
 
 
-plot_nodes_and_route(
-    tsp_problem.depot,
-    tsp_problem.locations,
-    tsp_problem.route,
-)
+# Guardar en variables individuales los datos de cada instancia
+for filename, data in process_files().items():
+    locations = data["locations"]
+    num_vehicles = data["num_vehicles"]
+    depot_index = data["depot"]
+
+depot = Depto(locations[depot_index], depot_index)
+
+# Cadena inicial
+sequence = "0 -> 7 -> 3 -> 17 -> 21 -> 16 -> 1 -> 2 -> 15 -> 13 -> 12 -> 11 -> 20 -> 19 -> 18 -> 9 -> 6 -> 5 -> 8 -> 10 -> 4 -> 14 -> 0"
+# Dividir la cadena en elementos individuales y convertirlos a enteros
+array = [int(num) for num in sequence.split(" -> ")]
+
+
+# Crear instancia de la clase TSP con la instancia de Depto, datos de lugares y la ruta
+tsp_problem = TSP(depot, locations, array)
+
+
+draw_locations(filter_locations(tsp_problem.locations, tsp_problem.depot.index))
+draw_deposit(tsp_problem.depot.data, tsp_problem.depot.index)
+draw_tsp_route(tsp_problem.locations, tsp_problem.route)
+draw_graph("Coordinate X", "Coordinate Y", "Travelling Salesperson Problem")

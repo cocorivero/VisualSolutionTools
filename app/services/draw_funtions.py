@@ -7,9 +7,9 @@ def draw_deposit(deposit_data, index):
     deposit_x = deposit_data[0]
     deposit_y = deposit_data[1]
     # Dibujar el depósito como un círculo negro grande
-    plt.plot(deposit_x, deposit_y, marker="o", markersize=15, color="black")
+    plt.plot(deposit_x, deposit_y, marker="o", markersize=14, color="green")
     # Dibujar el depósito como un círculo verde más pequeño dentro del círculo negro
-    plt.plot(deposit_x, deposit_y, marker="o", markersize=13, color="green")
+    plt.plot(deposit_x, deposit_y, marker="o", markersize=13, color="#00FF00")
     # Agregar un texto con el índice en el centro del depósito
     plt.text(
         deposit_x,
@@ -30,16 +30,21 @@ def filter_locations(locations, depot_index):
 
 # Dibujar todos los lugares que no son el depósito
 def draw_locations(locations, demands=None):
+    # x = [point[0] for point in locations]
+    # y = [point[1] for point in locations]
+    # # Crear la gráfica de dispersión
+    # plt.scatter(x, y, color="blue", marker="o")
+
     for i, location in enumerate(locations, start=1):
         # Obtener las coordenadas x e y del lugar
         x = location[0]
         y = location[1]
         # Dibujar el lugar como un círculo negro grande
-        plt.plot(x, y, marker="o", markersize=15, color="black")
+        plt.plot(x, y, marker="o", markersize=14, color="black")
         # Dibujar un círculo blanco más pequeño dentro del círculo negro
         plt.plot(x, y, marker="o", markersize=12, color="white")
         # Agregar un texto con el número del lugar en el centro
-        plt.text(x, y, str(i), fontsize=8, ha="center", va="center")
+        # plt.text(x, y, str(i), fontsize=8, ha="center", va="center")
         if demands is not None:
             plt.text(
                 x,
@@ -68,7 +73,6 @@ def draw_graph(x_label, y_label, graph_title):
     plt.xlabel(x_label)
     plt.ylabel(y_label)
     plt.title(graph_title)
-    plt.gca().set_aspect("equal", adjustable="box")
-    # Mostrar el gráfico
     plt.tight_layout()
+    plt.show(block=False)
     plt.show()

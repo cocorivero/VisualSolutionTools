@@ -7,7 +7,7 @@ import matplotlib.pyplot as plt
 from instances_problems import create_data_model_vrp, create_data_solution_vrp
 from services.draw_funtions import *
 from services.draw_routes import draw_vrp_route
-from classes.vehicle_routing_problem_classes import Depto, VRP
+from app.classes.cvrp import Depto, VRP
 
 
 # Crear el modelo de datos
