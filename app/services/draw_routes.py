@@ -2,7 +2,7 @@ import random
 import matplotlib.pyplot as plt
 
 
-def draw_route(locations, route, color_line="blue", displacement=0.1):
+def draw_route(locations, route, color_line="blue", displacement=0.05):
     for i in range(len(route) - 1):
         # Obtener las coordenadas del punto de inicio y punto final
         start_point = locations[route[i]]
@@ -11,7 +11,7 @@ def draw_route(locations, route, color_line="blue", displacement=0.1):
         # Calcular el vector de dirección
         dx = end_point[0] - start_point[0]
         dy = end_point[1] - start_point[1]
-        distance = (dx**2 + dy**2) ** 0.2
+        distance = (dx**2 + dy**2) ** 0.1
 
         # Calcular el factor de desplazamiento
         dx_displacement = displacement * (dx / distance)
@@ -42,7 +42,8 @@ def draw_route(locations, route, color_line="blue", displacement=0.1):
 
 # Dibuja la ruta del TSP
 def draw_tsp_route(locations, route):
-    draw_route(locations, route, "#87CEEB")
+    for index in range(len(route)):
+        draw_route(locations, route[index], "#87CEEB")
 
 
 # Dibuja la ruta del VRP

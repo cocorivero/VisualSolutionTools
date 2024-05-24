@@ -24,3 +24,24 @@ def process_files():
                     "depot": 0,
                 }
     return tsp_data
+
+
+def process_solutions():
+    tsp_solutions = {}
+    folder_path = os.path.join(os.path.dirname(__file__), "solutions")
+    for filename in os.listdir(folder_path):
+        if filename.endswith(".tsp"):
+            with open(os.path.join(folder_path, filename), "r") as file:
+                lines = file.readlines()
+                routes = []
+                for i, line in enumerate(lines):
+                    if line.startswith("Route:"):
+                        route_line = lines[i + 1].strip()
+                        route_nodes = route_line.split(" -> ")
+                        routes.append([int(node) for node in route_nodes])
+                        break
+
+                tsp_solutions[filename] = {
+                    "routes": routes,
+                }
+    return tsp_solutions

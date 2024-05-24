@@ -2,64 +2,29 @@ import sys
 
 sys.path.append("./")
 
-import matplotlib.pyplot as plt
-
-from problems.tsp.data_handling import process_files
-from instances_problems import create_data_model_tsp, create_data_solution_tsp
+from problems.tsp.data_handling import process_files, process_solutions
 from services.draw_funtions import *
 from services.draw_routes import draw_tsp_route
 from classes.tsp import TSP
 from classes.depto import Depto
 
-# Guardar en variables individuales los datos de cada instancia
-for filename, data in process_files().items():
-    locations = data["locations"]
-    num_vehicles = data["num_vehicles"]
-    depot_index = data["depot"]
+# Cargar los datos y las soluciones de las instancias de TSP
+problems = process_files()
+solutions = process_solutions()
 
-depot = Depto(locations[depot_index], depot_index)
+# Seleccionar la instancia que se quiere visualizar
+instance_name = "ulysses22"
 
-solution = create_data_solution_tsp()
+# Extraer los datos de la instancia y la solución
+data = problems[f"{instance_name}.tsp"]
+data_solution = solutions[f"solution_{instance_name}.tsp"]
 
 # Crear instancia de la clase TSP con la instancia de Depto, datos de lugares y la ruta
 tsp_problem = TSP(
-    depot,
-    locations,
-    solution["route"],
+    Depto(data["locations"][data["depot"]], data["depot"]),
+    data["locations"],
+    data_solution["routes"],
 )
-
-
-import sys
-
-sys.path.append("./")
-
-import matplotlib.pyplot as plt
-
-from problems.tsp.data_handling import process_files
-from instances_problems import create_data_model_tsp, create_data_solution_tsp
-from services.draw_funtions import *
-from services.draw_routes import draw_tsp_route
-from classes.tsp import TSP
-from classes.depto import Depto
-
-
-# Guardar en variables individuales los datos de cada instancia
-for filename, data in process_files().items():
-    locations = data["locations"]
-    num_vehicles = data["num_vehicles"]
-    depot_index = data["depot"]
-
-depot = Depto(locations[depot_index], depot_index)
-
-# Cadena inicial
-sequence = "0 -> 7 -> 3 -> 17 -> 21 -> 16 -> 1 -> 2 -> 15 -> 13 -> 12 -> 11 -> 20 -> 19 -> 18 -> 9 -> 6 -> 5 -> 8 -> 10 -> 4 -> 14 -> 0"
-# Dividir la cadena en elementos individuales y convertirlos a enteros
-array = [int(num) for num in sequence.split(" -> ")]
-
-
-# Crear instancia de la clase TSP con la instancia de Depto, datos de lugares y la ruta
-tsp_problem = TSP(depot, locations, array)
-
 
 draw_locations(filter_locations(tsp_problem.locations, tsp_problem.depot.index))
 draw_deposit(tsp_problem.depot.data, tsp_problem.depot.index)
