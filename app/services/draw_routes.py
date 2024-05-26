@@ -42,15 +42,17 @@ def draw_route(locations, route, color_line="blue", displacement=0.05):
 
 # Dibuja la ruta del TSP
 def draw_tsp_route(locations, route):
-    for index in range(len(route)):
-        draw_route(locations, route[index], "#87CEEB")
+    draw_route(locations, route, "#87CEEB")
 
 
 # Dibuja la ruta del VRP
 def draw_vrp_route(locations, vehicle_routes_mapping):
-    for vehicle_id, route in vehicle_routes_mapping.items():
+    for route in vehicle_routes_mapping.items():
+        if route[1] == [0, 0]:
+            continue
+        print(route)
         color = "#" + "".join([random.choice("0123456789ABCDEF") for _ in range(6)])
-        draw_route(locations, route, color)
+        draw_route(locations, route[1], color)
 
 
 # Dibuja la ruta del CVRP

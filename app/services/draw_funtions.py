@@ -7,9 +7,9 @@ def draw_deposit(deposit_data, index):
     deposit_x = deposit_data[0]
     deposit_y = deposit_data[1]
     # Dibujar el depósito como un círculo negro grande
-    plt.plot(deposit_x, deposit_y, marker="o", markersize=14, color="green")
+    plt.plot(deposit_x, deposit_y, marker="o", markersize=15, color="green")
     # Dibujar el depósito como un círculo verde más pequeño dentro del círculo negro
-    plt.plot(deposit_x, deposit_y, marker="o", markersize=13, color="#00FF00")
+    plt.plot(deposit_x, deposit_y, marker="o", markersize=12, color="#00FF00")
     # Agregar un texto con el índice en el centro del depósito
     plt.text(
         deposit_x,
