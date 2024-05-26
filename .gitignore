@@ -8,6 +8,7 @@ __pycache__/
 
 # Distribution / packaging
 .Python
+app/beta.py
 build/
 develop-eggs/
 dist/
