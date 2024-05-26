@@ -1,23 +1,12 @@
 import os
 import re
 
+###########################
+# DATA TSPLIB
+###########################
+
 
 def process_files_tsp():
-    """
-    Processes TSP instance files.
-
-    This function iterates through all files in the 'instances' directory and reads
-    those ending with '.tsp'. It extracts location coordinates from the 'NODE_COORD_SECTION'
-    to construct Traveling Salesman Problem (TSP) instances. Each file is assumed to represent
-    a single TSP instance with a single vehicle route.
-
-    Returns:
-        dict: A dictionary where keys are filenames and values are dictionaries
-        representing TSP instances with the following keys:
-            - "locations" (list of tuples): Coordinates of locations to be visited.
-            - "num_vehicles" (int): The number of vehicles (assumed to be 1 per instance).
-            - "depot" (int): The index of the depot location (assumed to be 0).
-    """
     tsp_data = {}
     folder_path = os.path.join(os.path.dirname(__file__), "instances")
     for filename in os.listdir(folder_path):
@@ -42,21 +31,12 @@ def process_files_tsp():
     return tsp_data
 
 
+#######################
+# DATA SOLUTIONS
+#######################
+
+
 def process_solutions_tsp():
-    """
-    Processes TSP solution files and extracts routes.
-
-    This function iterates through all files in the 'solutions' directory and reads
-    those ending with '.txt'. It extracts routes from the solution files and returns
-    them in the specified format.
-
-    Returns:
-        dict: A dictionary where keys are filenames and values are lists of route details.
-              Each route detail is represented as a dictionary containing the following keys:
-                  - "vehicle": The vehicle index (always 0 if only one vehicle).
-                  - "route": A list of node indices representing the route.
-                  - "distance": The distance traveled on the route.
-    """
     tsp_solutions = {}
     folder_path = os.path.join(os.path.dirname(__file__), "solutions")
     for filename in os.listdir(folder_path):

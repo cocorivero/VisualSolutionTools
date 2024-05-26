@@ -2,9 +2,8 @@ import sys
 
 sys.path.append("./")
 
-from app.problems.cvrp.data_handling_vrp import (
+from app.problems.vrp.data_handling_vrp import (
     process_files_vrp_txt,
-    process_files_vrp,
     process_solutions_vrp,
 )
 from services.draw_funtions import *

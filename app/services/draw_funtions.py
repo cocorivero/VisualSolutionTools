@@ -48,7 +48,7 @@ def draw_locations(locations, demands=None):
         if demands is not None:
             plt.text(
                 x,
-                y - 30,
+                y - 5,
                 str(demands[i]),
                 fontsize=8,
                 ha="center",

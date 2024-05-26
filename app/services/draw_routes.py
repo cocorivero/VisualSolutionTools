@@ -50,13 +50,14 @@ def draw_vrp_route(locations, vehicle_routes_mapping):
     for route in vehicle_routes_mapping.items():
         if route[1] == [0, 0]:
             continue
-        print(route)
         color = "#" + "".join([random.choice("0123456789ABCDEF") for _ in range(6)])
         draw_route(locations, route[1], color)
 
 
 # Dibuja la ruta del CVRP
 def draw_cvrp_route(locations, vehicle_routes_mapping):
-    for vehicle_id, route in vehicle_routes_mapping.items():
+    for route in vehicle_routes_mapping.items():
+        if route[1] == [0, 0]:
+            continue
         color = "#" + "".join([random.choice("0123456789ABCDEF") for _ in range(6)])
-        draw_route(locations, route, color)
+        draw_route(locations, route[1], color)
