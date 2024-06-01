@@ -1,8 +1,9 @@
 import matplotlib.pyplot as plt
+from matplotlib.lines import Line2D
 
 
 # Dibujar el depósito
-def draw_deposit(deposit_data, index):
+def draw_deposit(deposit_data, index=0):
     # Obtener las coordenadas x e y del depósito
     deposit_x = deposit_data[0]
     deposit_y = deposit_data[1]
@@ -57,18 +58,6 @@ def draw_locations(locations, demands=None):
             )
 
 
-# Crear una leyenda de ciudades con sus índices y nombres
-def draw_legend(locations):
-    city_legend = [f"{index}: {city}" for index, (_, _, city) in enumerate(locations)]
-    # Agregar la leyenda al gráfico con la posición en la esquina superior izquierda
-    plt.legend(
-        city_legend,
-        loc="upper left",
-        bbox_to_anchor=(1, 1),
-        handlelength=1,
-    )
-
-
 def draw_graph(x_label, y_label, graph_title):
     plt.xlabel(x_label)
     plt.ylabel(y_label)
@@ -76,3 +65,29 @@ def draw_graph(x_label, y_label, graph_title):
     plt.tight_layout()
     plt.show(block=False)
     plt.show()
+
+
+def draw_bus_stops_with_passengers(bus_stop_data):
+    for stop_data in bus_stop_data:
+        stop_x, stop_y = stop_data["stop_coordinates"]
+        passenger_coordinates = stop_data["passenger_coordinates"]
+
+        # Dibujar la parada de autobús
+
+        plt.plot(stop_x, stop_y, marker="o", markersize=14, color="black")
+        plt.plot(stop_x, stop_y, marker="o", markersize=12, color="white")
+
+        # Dibujar las coordenadas de los pasajeros asignados a esa parada
+        for passenger_coord in passenger_coordinates:
+            passenger_x, passenger_y = passenger_coord
+            plt.plot(passenger_x, passenger_y, marker="o", markersize=5, color="black")
+            plt.plot(passenger_x, passenger_y, marker="o", markersize=3, color="red")
+
+            # Dibujar una línea discontinua que conecta la parada de autobús con el pasajero asignado
+            line = Line2D(
+                [stop_x, passenger_x],
+                [stop_y, passenger_y],
+                linestyle="--",
+                color="gray",
+            )
+            plt.gca().add_line(line)
