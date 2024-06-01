@@ -17,4 +17,9 @@ solutions = process_solutions_vrp()
 data_solution = solutions[f"solution_{instance_name}.txt"]
 routes_dict = {entry["vehicle"]: entry["route"] for entry in data_solution}
 
-plot_problem("vrp", data["locations"], data["depot"], routes_dict)
+plot_problem(
+    "vrp",
+    locations=data["locations"],
+    depot_index=data["depot"],
+    vehicle_routes_mapping=routes_dict,
+)

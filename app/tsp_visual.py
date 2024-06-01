@@ -13,4 +13,9 @@ data = problems[f"{instance_name}.tsp"]
 solutions = process_solutions_tsp()
 data_solution = solutions[f"solution_{instance_name}.tsp"]
 
-plot_problem("tsp", data["locations"], data["depot"], data_solution["route"])
+plot_problem(
+    "tsp",
+    locations=data["locations"],
+    depot_index=data["depot"],
+    vehicle_routes_mapping=data_solution["route"],
+)
