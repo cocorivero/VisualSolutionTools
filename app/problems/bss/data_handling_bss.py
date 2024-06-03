@@ -37,8 +37,15 @@ def process_files_solutions():
                     )
 
                 solution_data[filename] = {
-                    "depot_coordinates": depot_coordinates,
+                    "depot_coordinates": depot_coordinates[0],
                     "bus_stop_data": bus_stop_data,
                 }
 
     return solution_data
+
+
+def load_data_bss():
+    instance_name = "BSS_solution-69_B-3_P-25_D-1_MW-40.0_MBC-15_MVC-25_BSS.json"
+    data_solution = process_files_solutions()
+    data = data_solution[instance_name]
+    return data

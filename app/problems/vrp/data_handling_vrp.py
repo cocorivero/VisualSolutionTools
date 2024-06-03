@@ -88,12 +88,7 @@ def process_files_vrp_txt():
     return total_data
 
 
-#######################
-# SOLUTIONS
-#######################
-
-
-def process_solutions_vrp():
+def process_solutions_vrp_txt():
     solution_routes = {}
     folder_path = os.path.join(os.path.dirname(__file__), "solutions")
 
@@ -127,3 +122,13 @@ def process_solutions_vrp():
                 solution_routes[filename] = route_details
 
     return solution_routes
+
+
+def load_data_vrp_txt():
+    instance_name = "p2"
+    vrp_txt_data = process_files_vrp_txt()
+    data = vrp_txt_data[f"{instance_name}.txt"]
+    vrp_solutions_txt = process_solutions_vrp_txt()
+    data_solution = vrp_solutions_txt[f"solution_{instance_name}.txt"]
+    routes = {entry["vehicle"]: entry["route"] for entry in data_solution}
+    return data, routes
