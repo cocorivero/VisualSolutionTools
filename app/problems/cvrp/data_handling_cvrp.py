@@ -58,12 +58,7 @@ def process_files_cvrp_txt():
     return total_data
 
 
-#######################
-# DATA SOLUTIONS
-#######################
-
-
-def process_solutions_cvrp():
+def process_solutions_cvrp_txt():
     solution_routes = {}
     folder_path = os.path.join(os.path.dirname(__file__), "solutions")
 
@@ -97,3 +92,13 @@ def process_solutions_cvrp():
                 solution_routes[filename] = route_details
 
     return solution_routes
+
+
+def load_data_cvrp_txt():
+    instance_name = "p31"
+    cvrp_txt_data = process_files_cvrp_txt()
+    data = cvrp_txt_data[f"{instance_name}.txt"]
+    cvrp_solutions_txt = process_solutions_cvrp_txt()
+    data_solution = cvrp_solutions_txt[f"solution_{instance_name}.txt"]
+    routes = {entry["vehicle"]: entry["route"] for entry in data_solution}
+    return data, routes

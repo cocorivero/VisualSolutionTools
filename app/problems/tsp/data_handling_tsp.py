@@ -58,3 +58,13 @@ def process_solutions_tsp():
                         }
 
     return tsp_solutions
+
+
+def load_data_tsp():
+    instance_name = "ulysses22"
+    tsp_data = process_files_tsp()
+    data = tsp_data[f"{instance_name}.tsp"]
+    tsp_solutions = process_solutions_tsp()
+    data_solution = tsp_solutions[f"solution_{instance_name}.tsp"]
+    route = {data_solution["vehicle"]: data_solution["route"]}
+    return data, route

@@ -1,5 +1,5 @@
 class Depto:
-    def __init__(self, data: tuple, index: int = None):
+    def __init__(self, data: tuple, index: int = 0):
         self.data = data
         self.index = index
 
