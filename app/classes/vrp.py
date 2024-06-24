@@ -1,25 +1,27 @@
 import sys
 
+
 sys.path.append("./")
 from typing import List, Optional, Tuple
-
 from matplotlib import pyplot as plt
 from sympy import Line2D
+
 from app.classes.stop import Stop
+from app.classes.passenger import Passenger
 
 
 class VRP:
-    def __init__(self, depot_id: str, stops: List[Stop], routes: Optional[List[str]]):
-        """
-        Initialize the VRP with a depot, list of stops, and list of routes.
-
-        :param depot: Depot object
-        :param stops: List of Stop objects
-        :param routes: List of route IDs (each route is represented as a list of stop IDs)
-        """
+    def __init__(
+        self,
+        depot_id: str,
+        stops: List[Stop],
+        routes: Optional[List[str]] = None,
+        passengers: Optional[List[Passenger]] = None,
+    ):
         self.depot_id: str = depot_id
         self.stops: List[Stop] = stops
         self.routes: List[str] = routes if routes is not None else []
+        self.passengers: List[Passenger] = passengers if passengers is not None else []
 
     def get_depot_coordinates(self) -> Tuple[float, float]:
         """
@@ -96,7 +98,10 @@ class VRP:
 
                 # Dibujar pasajeros asignados a la parada
                 if stop.assigned_passengers:
-                    for passenger_x, passenger_y in stop.assigned_passengers:
+                    for passenger in stop.assigned_passengers:
+                        passenger_x, passenger_y = self.get_passenger_coordinates_by_id(
+                            passenger
+                        )
                         plt.plot(
                             passenger_x,
                             passenger_y,
@@ -160,3 +165,8 @@ class VRP:
                 )
                 plt.gca().add_line(line)
 
+    def get_passenger_coordinates_by_id(self, passenger_id):
+        for passenger in self.passengers:
+            if passenger[0] == passenger_id:
+                return passenger[1]
+        return None

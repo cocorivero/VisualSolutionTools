@@ -21,7 +21,9 @@ def process_files_tsp():
                     node_id = int(parts[0])
                     x_coord = float(parts[1])
                     y_coord = float(parts[2])
-                    locations[node_id] = (x_coord, y_coord)
+                    locations[str(node_id)] = {
+                        "coordinates": (x_coord, y_coord),
+                    }
 
                 depot_id = next(
                     iter(locations)
@@ -57,15 +59,6 @@ def process_solutions_tsp():
     return tsp_solutions
 
 
-def load_data_tsp():
-    instance_name = "ulysses22"
-    tsp_data = process_files_tsp()
-    data = tsp_data[instance_name]
-    tsp_solutions = process_solutions_tsp()
-    routes = tsp_solutions[f"solution_{instance_name}"]
-    return data, routes
-
-
 ################################################
 
 
@@ -90,7 +83,9 @@ def process_files_vrp():
                     node_id = int(parts[0])
                     x_coord = float(parts[1])
                     y_coord = float(parts[2])
-                    locations[node_id] = (x_coord, y_coord)
+                    locations[str(node_id)] = {
+                        "coordinates": (x_coord, y_coord),
+                    }
                 depot_id_str = str(depot_id)
                 vrp_data[instance_name] = {
                     "depot_id": depot_id_str,
@@ -121,15 +116,6 @@ def process_solutions_vrp():
     return vrp_solutions
 
 
-def load_data_vrp_txt():
-    instance_name = "p1"
-    vrp_data = process_files_vrp()
-    data = vrp_data[instance_name]
-    vrp_solutions = process_solutions_vrp()
-    routes = vrp_solutions[f"solution_{instance_name}"]
-    return data, routes
-
-
 ###############################################
 
 
@@ -155,7 +141,10 @@ def process_files_cvrp():
                     x_coord = float(parts[1])
                     y_coord = float(parts[2])
                     capacity = int(parts[3])
-                    locations[node_id] = (x_coord, y_coord, capacity)
+                    locations[node_id] = {
+                        "coordinates": (x_coord, y_coord),
+                        "capacity": capacity,
+                    }
                 depot_id_str = str(depot_id)
                 cvrp_data[instance_name] = {
                     "depot_id": depot_id_str,
@@ -190,17 +179,10 @@ def process_solutions_cvrp():
     return cvrp_solutions
 
 
-def load_data_cvrp():
-    instance_name = "p15"
-    cvrp_data = process_files_cvrp()
-    data = cvrp_data[instance_name]
-    cvrp_solutions = process_solutions_cvrp()
-    routes = cvrp_solutions[f"solution_{instance_name}"]
-    return data, routes
-
-
 ###############################################
-def process_files_new_format():
+
+
+def process_files_bss():
     new_format_data = {}
     folder_path = os.path.join(
         os.path.dirname(__file__), "problems_instances", "bss", "solutions"
@@ -214,10 +196,24 @@ def process_files_new_format():
                 depots = data.get("depots", [])
                 if depots:
                     depot_id = depots[0]["id"]
+                    depot_coordinates = (
+                        depots[0]["coordinate_x"],
+                        depots[0]["coordinate_y"],
+                    )
                 else:
                     depot_id = None
+                    depot_coordinates = None
+
                 # Obtener información de las paradas
-                locations = []
+                locations = {}
+                # Agregar datos del depósito a las ubicaciones si están disponibles
+                if depot_id is not None and depot_coordinates is not None:
+                    locations[depot_id] = {
+                        "coordinates": depot_coordinates,
+                        "passenger_ids": [],
+                        "capacity": 0,
+                    }
+
                 for bus_stop in data.get("bus_stops", []):
                     stop_id = bus_stop["id"]
                     coordinates = (bus_stop["coordinate_x"], bus_stop["coordinate_y"])
@@ -226,16 +222,59 @@ def process_files_new_format():
                         for passenger in bus_stop.get("passenger_list", [])
                     ]
                     capacity = data.get("max_bus_stop_capacity")
-                    locations.append((stop_id, coordinates, passenger_ids, capacity))
+                    locations[stop_id] = {
+                        "coordinates": coordinates,
+                        "passenger_ids": passenger_ids,
+                        "capacity": capacity,
+                    }
+
+                # Obtener información de los pasajeros
+                passengers_data = []
+                for passenger in data.get("passenger_list", []):
+                    passenger_id = passenger["id"]
+                    passenger_coordinates = (
+                        passenger["coordinate_x"],
+                        passenger["coordinate_y"],
+                    )
+                    passengers_data.append((passenger_id, passenger_coordinates))
+
                 new_format_data[instance_name] = {
                     "depot_id": depot_id,
                     "locations": locations,
+                    "passengers": passengers_data,
                 }
     return new_format_data
 
 
+def load_data_tsp():
+    instance_name = "ulysses22"
+    tsp_data = process_files_tsp()
+    data = tsp_data[instance_name]
+    tsp_solutions = process_solutions_tsp()
+    routes = tsp_solutions[f"solution_{instance_name}"]
+    return data, routes
+
+
+def load_data_vrp_txt():
+    instance_name = "p1"
+    vrp_data = process_files_vrp()
+    data = vrp_data[instance_name]
+    vrp_solutions = process_solutions_vrp()
+    routes = vrp_solutions[f"solution_{instance_name}"]
+    return data, routes
+
+
+def load_data_cvrp():
+    instance_name = "p15"
+    cvrp_data = process_files_cvrp()
+    data = cvrp_data[instance_name]
+    cvrp_solutions = process_solutions_cvrp()
+    routes = cvrp_solutions[f"solution_{instance_name}"]
+    return data, routes
+
+
 def load_data_bss():
     instance_name = "BSS_solution-69_B-3_P-25_D-1_MW-40.0_MBC-15_MVC-25_BSS"
-    data_solution = process_files_new_format()
+    data_solution = process_files_bss()
     data = data_solution[instance_name]
     return data
