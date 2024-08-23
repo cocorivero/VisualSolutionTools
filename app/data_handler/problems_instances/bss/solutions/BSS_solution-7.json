@@ -11,7 +11,7 @@
     {
       "coordinate_x": 50.0,
       "coordinate_y": 50.0,
-      "id": "depot_1"
+      "id": "0"
     }
   ],
   "bus_stops": [
@@ -19,7 +19,7 @@
       "total_passengers_assigned": 2,
       "coordinate_x": 16.599,
       "coordinate_y": 63.992,
-      "id": "bus_stop_id_1",
+      "id": "1",
       "passenger_list": [
         {
           "passenger_id": "passenger_id_40"
@@ -33,7 +33,7 @@
       "total_passengers_assigned": 10,
       "coordinate_x": 56.2278,
       "coordinate_y": 33.7938,
-      "id": "bus_stop_id_2",
+      "id": "2",
       "passenger_list": [
         {
           "passenger_id": "passenger_id_45"
@@ -71,7 +71,7 @@
       "total_passengers_assigned": 2,
       "coordinate_x": 51.234,
       "coordinate_y": 53.09,
-      "id": "bus_stop_id_3",
+      "id": "3",
       "passenger_list": [
         {
           "passenger_id": "passenger_id_11"
@@ -85,7 +85,7 @@
       "total_passengers_assigned": 4,
       "coordinate_x": 57.519,
       "coordinate_y": 65.49449999999999,
-      "id": "bus_stop_id_4",
+      "id": "4",
       "passenger_list": [
         {
           "passenger_id": "passenger_id_22"
@@ -105,7 +105,7 @@
       "total_passengers_assigned": 10,
       "coordinate_x": 84.98440000000001,
       "coordinate_y": 48.28060000000001,
-      "id": "bus_stop_id_5",
+      "id": "5",
       "passenger_list": [
         {
           "passenger_id": "passenger_id_8"
@@ -143,7 +143,7 @@
       "total_passengers_assigned": 6,
       "coordinate_x": 53.62,
       "coordinate_y": 48.602,
-      "id": "bus_stop_id_6",
+      "id": "6",
       "passenger_list": [
         {
           "passenger_id": "passenger_id_13"
@@ -169,7 +169,7 @@
       "total_passengers_assigned": 5,
       "coordinate_x": 27.063666666666666,
       "coordinate_y": 31.492,
-      "id": "bus_stop_id_7",
+      "id": "7",
       "passenger_list": [
         {
           "passenger_id": "passenger_id_34"
@@ -192,7 +192,7 @@
       "total_passengers_assigned": 4,
       "coordinate_x": 65.188,
       "coordinate_y": 68.021,
-      "id": "bus_stop_id_8",
+      "id": "8",
       "passenger_list": [
         {
           "passenger_id": "passenger_id_29"
@@ -212,7 +212,7 @@
       "total_passengers_assigned": 5,
       "coordinate_x": 27.984,
       "coordinate_y": 28.665,
-      "id": "bus_stop_id_9",
+      "id": "9",
       "passenger_list": [
         {
           "passenger_id": "passenger_id_35"
@@ -235,7 +235,7 @@
       "total_passengers_assigned": 2,
       "coordinate_x": 31.774,
       "coordinate_y": 75.275,
-      "id": "bus_stop_id_10",
+      "id": "10",
       "passenger_list": [
         {
           "passenger_id": "passenger_id_4"
@@ -249,7 +249,7 @@
       "total_passengers_assigned": 18,
       "coordinate_x": 31.430222222222223,
       "coordinate_y": 70.58477777777777,
-      "id": "bus_stop_id_11",
+      "id": "11",
       "passenger_list": [
         {
           "passenger_id": "passenger_id_3"
@@ -311,7 +311,7 @@
       "total_passengers_assigned": 2,
       "coordinate_x": 56.468,
       "coordinate_y": 50.503,
-      "id": "bus_stop_id_12",
+      "id": "12",
       "passenger_list": [
         {
           "passenger_id": "passenger_id_15"
@@ -325,7 +325,7 @@
       "total_passengers_assigned": 6,
       "coordinate_x": 64.55266666666667,
       "coordinate_y": 74.23666666666666,
-      "id": "bus_stop_id_13",
+      "id": "13",
       "passenger_list": [
         {
           "passenger_id": "passenger_id_26"
@@ -351,7 +351,7 @@
       "total_passengers_assigned": 2,
       "coordinate_x": 95.245,
       "coordinate_y": 37.843,
-      "id": "bus_stop_id_14",
+      "id": "14",
       "passenger_list": [
         {
           "passenger_id": "passenger_id_48"
@@ -365,7 +365,7 @@
       "total_passengers_assigned": 4,
       "coordinate_x": 91.9965,
       "coordinate_y": 31.908,
-      "id": "bus_stop_id_15",
+      "id": "15",
       "passenger_list": [
         {
           "passenger_id": "passenger_id_50"
@@ -385,7 +385,7 @@
       "total_passengers_assigned": 6,
       "coordinate_x": 60.68266666666667,
       "coordinate_y": 69.726,
-      "id": "bus_stop_id_16",
+      "id": "16",
       "passenger_list": [
         {
           "passenger_id": "passenger_id_24"
@@ -411,7 +411,7 @@
       "total_passengers_assigned": 4,
       "coordinate_x": 87.837,
       "coordinate_y": 33.431,
-      "id": "bus_stop_id_17",
+      "id": "17",
       "passenger_list": [
         {
           "passenger_id": "passenger_id_46"
@@ -431,7 +431,7 @@
       "total_passengers_assigned": 6,
       "coordinate_x": 15.690666666666667,
       "coordinate_y": 67.49666666666667,
-      "id": "bus_stop_id_18",
+      "id": "18",
       "passenger_list": [
         {
           "passenger_id": "passenger_id_38"
@@ -457,7 +457,7 @@
       "total_passengers_assigned": 2,
       "coordinate_x": 11.852,
       "coordinate_y": 62.754,
-      "id": "bus_stop_id_19",
+      "id": "19",
       "passenger_list": [
         {
           "passenger_id": "passenger_id_39"

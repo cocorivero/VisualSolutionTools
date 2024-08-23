@@ -1,11 +1,14 @@
+import sys
+
+sys.path.append("./")
+from app.classes.point import Point
 from typing import Tuple
 
 
-class Passenger:
+class Passenger(Point):
     def __init__(
         self,
         id: str,
         coordinates: Tuple[float, float],
     ):
-        self.id: str = id
-        self.coordinates: Tuple[float, float] = coordinates
+        super().__init__(id, coordinates)

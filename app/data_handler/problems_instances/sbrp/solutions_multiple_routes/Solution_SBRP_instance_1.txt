@@ -1,0 +1,14 @@
+Instance: 1
+Objective: 0
+Route for vehicle 0:
+ 0 Load(0) ->  1 Load(2) ->  0 Load(2)
+Distance of the route: 0m
+Load of the route: 2
+
+Route for vehicle 1:
+ 0 Load(0) ->  3 Load(3) ->  2 Load(6) ->  0 Load(6)
+Distance of the route: 0m
+Load of the route: 6
+
+Total distance of all routes: 0m
+Total load of all routes: 8
