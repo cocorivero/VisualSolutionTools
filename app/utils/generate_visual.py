@@ -2,12 +2,9 @@ import sys
 
 sys.path.append("./")
 
-from app.generate_visual.utils import (
-    create_simple_stops,
-    create_stops_with_assigned_passengers,
-    create_stops_with_capacity,
-)
 from app.classes.vrp import VRP
+from app.classes.stop import Stop
+from typing import List
 
 
 def plot_problem(
@@ -25,19 +22,21 @@ def plot_problem(
         case "vrp" | "tsp":
             vrp = VRP(
                 depot_id=depot_id,
-                stops=create_simple_stops(stops),
+                stops=create_stops(stops),
                 routes=routes,
             )
         case "cvrp":
             vrp = VRP(
                 depot_id=depot_id,
-                stops=create_stops_with_capacity(stops),
+                stops=create_stops(stops, with_capacity=True),
                 routes=routes,
             )
         case "bss":
             vrp = VRP(
                 depot_id=depot_id,
-                stops=create_stops_with_assigned_passengers(stops),
+                stops=create_stops(
+                    stops, with_capacity=True, with_assigned_passengers=True
+                ),
                 passengers=passengers,
             )
         case _:
@@ -47,3 +46,22 @@ def plot_problem(
     vrp.draw_deposit()
     vrp.draw_stops()
     vrp.draw_graph(x_label, y_label, graph_title)
+
+
+def create_stops(
+    stop_data,
+    with_capacity: bool = False,
+    with_assigned_passengers: bool = False,
+) -> List[Stop]:
+    stops = []
+    for stop_id, data in stop_data.items():
+        stop = Stop(
+            id=str(stop_id),
+            coordinates=data["coordinates"],
+            capacity=data["capacity"] if with_capacity else None,
+            assigned_passengers=(
+                data["passenger_ids"] if with_assigned_passengers else None
+            ),
+        )
+        stops.append(stop)
+    return stops

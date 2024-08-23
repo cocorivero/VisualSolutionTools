@@ -246,8 +246,7 @@ def process_files_bss():
     return new_format_data
 
 
-def load_data_tsp():
-    instance_name = "ulysses22"
+def load_data_tsp(instance_name):
     tsp_data = process_files_tsp()
     data = tsp_data[instance_name]
     tsp_solutions = process_solutions_tsp()
@@ -255,8 +254,7 @@ def load_data_tsp():
     return data, routes
 
 
-def load_data_vrp_txt():
-    instance_name = "p1"
+def load_data_vrp_txt(instance_name):
     vrp_data = process_files_vrp()
     data = vrp_data[instance_name]
     vrp_solutions = process_solutions_vrp()
@@ -264,8 +262,7 @@ def load_data_vrp_txt():
     return data, routes
 
 
-def load_data_cvrp():
-    instance_name = "p15"
+def load_data_cvrp(instance_name):
     cvrp_data = process_files_cvrp()
     data = cvrp_data[instance_name]
     cvrp_solutions = process_solutions_cvrp()
@@ -273,8 +270,7 @@ def load_data_cvrp():
     return data, routes
 
 
-def load_data_bss():
-    instance_name = "BSS_solution-69_B-3_P-25_D-1_MW-40.0_MBC-15_MVC-25_BSS"
+def load_data_bss(instance_name):
     data_solution = process_files_bss()
     data = data_solution[instance_name]
     return data
