@@ -27,10 +27,7 @@ def process_files_tsp():
                         "coordinates": (x_coord, y_coord),
                     }
 
-                depot_id = next(
-                    iter(locations)
-                )  # Obtener el ID del primer nodo como el ID del depósito
-                # Convertir el ID del depósito a cadena
+                depot_id = next(iter(locations))
                 depot_id_str = str(depot_id)
 
                 tsp_data[instance_name] = {
@@ -194,7 +191,7 @@ def process_files_bss():
             instance_name = filename.replace(".json", "")
             with open(os.path.join(folder_path, filename), "r") as file:
                 data = json.load(file)
-                # Obtener el id del depósito
+
                 depots = data.get("depots", [])
                 if depots:
                     depot_id = depots[0]["id"]
@@ -206,39 +203,43 @@ def process_files_bss():
                     depot_id = None
                     depot_coordinates = None
 
-                # Obtener información de las paradas
                 locations = {}
-                # Agregar datos del depósito a las ubicaciones si están disponibles
                 if depot_id is not None and depot_coordinates is not None:
                     locations[depot_id] = {
                         "coordinates": depot_coordinates,
-                        "passenger_ids": [],
+                        "passengers": [],
                         "capacity": 0,
                     }
+
+                passenger_coordinates_map = {
+                    passenger["id"]: (
+                        passenger["coordinate_x"],
+                        passenger["coordinate_y"],
+                    )
+                    for passenger in data.get("passenger_list", [])
+                }
 
                 for bus_stop in data.get("bus_stops", []):
                     stop_id = bus_stop["id"]
                     coordinates = (bus_stop["coordinate_x"], bus_stop["coordinate_y"])
-                    passenger_ids = [
-                        passenger["passenger_id"]
-                        for passenger in bus_stop.get("passenger_list", [])
+                    passengers = [
+                        (passenger_id, passenger_coordinates_map[passenger_id])
+                        for passenger_id in [
+                            passenger["passenger_id"]
+                            for passenger in bus_stop.get("passenger_list", [])
+                        ]
                     ]
                     capacity = data.get("max_bus_stop_capacity")
                     locations[stop_id] = {
                         "coordinates": coordinates,
-                        "passenger_ids": passenger_ids,
+                        "passengers": passengers,
                         "capacity": capacity,
                     }
 
-                # Obtener información de los pasajeros
-                passengers_data = []
-                for passenger in data.get("passenger_list", []):
-                    passenger_id = passenger["id"]
-                    passenger_coordinates = (
-                        passenger["coordinate_x"],
-                        passenger["coordinate_y"],
-                    )
-                    passengers_data.append((passenger_id, passenger_coordinates))
+                passengers_data = [
+                    (passenger["id"], passenger_coordinates_map[passenger["id"]])
+                    for passenger in data.get("passenger_list", [])
+                ]
 
                 new_format_data[instance_name] = {
                     "depot_id": depot_id,
@@ -261,7 +262,7 @@ def process_files_sbrp():
             instance_name = filename.replace(".json", "")
             with open(os.path.join(folder_path, filename), "r") as file:
                 data = json.load(file)
-                # Obtener el id del depósito
+
                 depots = data.get("depots", [])
                 if depots:
                     depot_id = depots[0]["id"]
@@ -273,45 +274,50 @@ def process_files_sbrp():
                     depot_id = None
                     depot_coordinates = None
 
-                # Obtener información de las paradas
                 locations = {}
-                # Agregar datos del depósito a las ubicaciones si están disponibles
                 if depot_id is not None and depot_coordinates is not None:
                     locations[depot_id] = {
                         "coordinates": depot_coordinates,
-                        "passenger_ids": [],
+                        "passengers": [],
                         "capacity": 0,
                     }
+
+                passengers_dict = {
+                    passenger["id"]: (
+                        passenger["coordinate_x"],
+                        passenger["coordinate_y"],
+                    )
+                    for passenger in data.get("passenger_list", [])
+                }
 
                 for bus_stop in data.get("bus_stops", []):
                     stop_id = bus_stop["id"]
                     coordinates = (bus_stop["coordinate_x"], bus_stop["coordinate_y"])
-                    passenger_ids = [
-                        passenger["passenger_id"]
-                        for passenger in bus_stop.get("passenger_list", [])
+                    passengers = [
+                        (passenger_id, passengers_dict[passenger_id])
+                        for passenger_id in [
+                            passenger["passenger_id"]
+                            for passenger in bus_stop.get("passenger_list", [])
+                        ]
                     ]
                     capacity = data.get("max_bus_stop_capacity")
                     locations[stop_id] = {
                         "coordinates": coordinates,
-                        "passenger_ids": passenger_ids,
+                        "passengers": passengers,
                         "capacity": capacity,
                     }
 
-                # Obtener información de los pasajeros
-                passengers_data = []
-                for passenger in data.get("passenger_list", []):
-                    passenger_id = passenger["id"]
-                    passenger_coordinates = (
-                        passenger["coordinate_x"],
-                        passenger["coordinate_y"],
-                    )
-                    passengers_data.append((passenger_id, passenger_coordinates))
+                passengers_data = [
+                    (passenger_id, coordinates)
+                    for passenger_id, coordinates in passengers_dict.items()
+                ]
 
                 new_format_data[instance_name] = {
                     "depot_id": depot_id,
                     "locations": locations,
                     "passengers": passengers_data,
                 }
+
     return new_format_data
 
 
@@ -328,9 +334,7 @@ def process_solutions_sbrp():
                 lines = file.readlines()
                 for i, line in enumerate(lines):
                     if line.startswith("Route for vehicle"):
-                        route_line = lines[
-                            i + 1
-                        ].strip()  # La línea que contiene la ruta
+                        route_line = lines[i + 1].strip()
                         route_nodes = route_line.split(" -> ")
                         route = [
                             str(int(node)) for node in route_nodes if node.isdigit()
@@ -349,7 +353,7 @@ def process_solutions_sbrp_multiple_routes():
         "sbrp",
         "solutions_multiple_routes",
     )
-    
+
     for filename in os.listdir(folder_path):
         if filename.endswith(".txt"):
             instance_name = filename.replace(".txt", "")
@@ -362,10 +366,10 @@ def process_solutions_sbrp_multiple_routes():
                         i += 1
                         route_line = lines[i].strip()
                         route_nodes = [
-                            node.split()[0] for node in route_line.split("->")
+                            node.split()[0]
+                            for node in route_line.split("->")
                             if node.strip()
                         ]
-                        # Remove unnecessary spaces
                         route_nodes = [node.strip() for node in route_nodes]
                         if instance_name not in sbrp_solutions:
                             sbrp_solutions[instance_name] = []

@@ -3,6 +3,7 @@ import sys
 sys.path.append("./")
 
 from app.classes.point import Point
+from app.classes.passenger import Passenger
 from typing import List, Optional, Tuple
 
 
@@ -27,7 +28,7 @@ class Stop(Point):
         marker_passenger_border_color: str,
         passenger_route_style: str,
         passenger_route_color: str,
-        assigned_passengers: Optional[List[str]] = None,
+        assigned_passengers: Optional[List[Passenger]] = None,
         capacity: Optional[int] = None,
     ):
         super().__init__(id, coordinates)
@@ -48,7 +49,7 @@ class Stop(Point):
         self.marker_passenger_border_color: str = marker_passenger_border_color
         self.passenger_route_style: str = passenger_route_style
         self.passenger_route_color: str = passenger_route_color
-        self.assigned_passengers: List[str] = (
+        self.assigned_passengers: List[Passenger] = (
             assigned_passengers if assigned_passengers is not None else []
         )
         self.capacity: Optional[int] = capacity

@@ -3,6 +3,7 @@ from app.classes.vrp import VRP
 from app.classes.stop import Stop
 from app.classes.depot import Depot
 from app.classes.route import Route
+from app.classes.passenger import Passenger
 from matplotlib import pyplot as plt
 import random
 from typing import List, Tuple, Dict
@@ -20,11 +21,11 @@ def plot_problem(
     graph_title: str = None,
 ):
     default_graph_titles = {
-        "tsp": "Traveling Salesman Problem",
-        "vrp": "Vehicle Routing Problem",
-        "cvrp": "Capacitated Vehicle Routing Problem",
-        "bss": "Bus Stops Selector",
-        "sbrp": "School Bus Routing ",
+        "tsp": "Traveling Salesman Problem (TSP)",
+        "vrp": "Vehicle Routing Problem (VRP)",
+        "cvrp": "Capacitated Vehicle Routing Problem (CVRP)",
+        "bss": "Bus Stops Selector (BSS)",
+        "sbrp": "School Bus Routing Problem (SBRP)",
     }
 
     graph_title = graph_title or default_graph_titles.get(
@@ -109,6 +110,9 @@ def create_stops(
 ) -> List[Stop]:
     stops = []
     for stop_id, data in stop_data.items():
+        assigned_passengers = (
+            create_passengers(data["passengers"]) if with_assigned_passengers else []
+        )
         stop = Stop(
             id=str(stop_id),
             coordinates=data["coordinates"],
@@ -133,16 +137,22 @@ def create_stops(
             passenger_route_style=stop_config.get("passenger_route_style", "--"),
             passenger_route_color=stop_config.get("passenger_route_color", "grey"),
             capacity=data.get("capacity") if with_capacity else None,
-            assigned_passengers=(
-                data.get("passenger_ids") if with_assigned_passengers else None
-            ),
+            assigned_passengers=assigned_passengers,
         )
         stops.append(stop)
     return stops
 
 
+def create_passengers(
+    passenger_data: List[Tuple[str, Tuple[float, float]]]
+) -> List[Passenger]:
+    return [
+        Passenger(id=passenger_id, coordinates=coordinates)
+        for passenger_id, coordinates in passenger_data
+    ]
+
+
 def create_routes(routes: List, routes_config: Dict) -> List[Route]:
-    # Inicializar custom_colors_list si no está en routes_config
     custom_colors_list = routes_config.get(
         "custom_colors_list",
         [
@@ -173,13 +183,11 @@ def create_routes(routes: List, routes_config: Dict) -> List[Route]:
     created_routes = []
 
     for i, stops in enumerate(routes):
-        # Asignar color basado en la lógica de random_colors
         if routes_config.get("random_colors", False):
             color = random.choice(custom_colors_list)
         else:
             color = custom_colors_list[i % num_colors]
 
-        # Crear una instancia de Route y agregarla a la lista
         route = Route(
             route_id=i + 1,
             stops=stops,
@@ -196,6 +204,7 @@ def create_graph(vrp: VRP, graph_title):
     vrp.draw_routes()
     vrp.draw_stops()
     vrp.draw_deposit()
+    vrp.draw_legend()
     plt.xlabel("Coordenada X")
     plt.ylabel("Coordenada Y")
     plt.title(graph_title)

@@ -2,7 +2,7 @@ import sys
 
 sys.path.append("./")
 
-from app.utils.plot_funtions import plot_problem
+from app.plot_funtions.plot_funtions import plot_problem
 from app.data_handler.load_data import (
     load_data_tsp,
     load_data_vrp,
@@ -62,12 +62,12 @@ plot_problem("vrp", data, routes)
 
 cvrp_instance = "p31"
 data, routes = load_data_cvrp(cvrp_instance)
-plot_problem("cvrp", data, routes)
+# plot_problem("cvrp", data, routes)
 
 bss_instance = "BSS_solution-2"
 data = load_data_bss(bss_instance)
 plot_problem("bss", data)
 
-sbrp_instance = "SBRP_instance_3"
+sbrp_instance = "SBRP_instance_1"
 data, routes = load_data_sbrp(sbrp_instance, multiple_routes=True)
 plot_problem("sbrp", data, routes)

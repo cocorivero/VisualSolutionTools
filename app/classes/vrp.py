@@ -1,9 +1,11 @@
 import random
 import sys
 
+
 sys.path.append("./")
 from typing import List, Optional
 from matplotlib import pyplot as plt
+from matplotlib.lines import Line2D
 
 from app.classes.stop import Stop
 from app.classes.passenger import Passenger
@@ -57,9 +59,7 @@ class VRP:
 
                 if stop.assigned_passengers:
                     for passenger in stop.assigned_passengers:
-                        passenger_x, passenger_y = self.get_coordinates_by_passenger_id(
-                            passenger
-                        )
+                        passenger_x, passenger_y = passenger.get_coordinates()
                         plt.plot(
                             passenger_x,
                             passenger_y,
@@ -153,8 +153,40 @@ class VRP:
                     zorder=0,
                 )
 
-    def get_coordinates_by_passenger_id(self, passenger_id):
-        for passenger in self.passengers:
-            if passenger[0] == passenger_id:
-                return passenger[1]
-        return None
+    def draw_legend(self):
+        if not self.routes:
+            plt.text(
+                1.05,
+                1,
+                "No hay rutas disponibles",
+                transform=plt.gca().transAxes,
+                fontsize=12,
+                verticalalignment="top",
+            )
+        else:
+            legend_elements = []
+            for route in self.routes:
+                stop_chunks = [
+                    " -> ".join(route.stops[i : i + 3])
+                    for i in range(0, len(route.stops), 3)
+                ]
+                stops_with_breaks = "\n".join(stop_chunks)
+
+                legend_label = f"Ruta {route.route_id}:\n{stops_with_breaks}"
+                legend_elements.append(
+                    Line2D(
+                        [0],
+                        [0],
+                        color=route.color,
+                        lw=route.thickness,
+                        label=legend_label,
+                    )
+                )
+
+            plt.legend(
+                handles=legend_elements,
+                loc="upper left",
+                bbox_to_anchor=(1.05, 1),
+                borderaxespad=0.0,
+                title="* Leyenda *",
+            )
