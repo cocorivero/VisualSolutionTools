@@ -2,7 +2,7 @@ import sys
 
 sys.path.append("./")
 
-from app.plot_funtions.plot_funtions import plot_problem
+from app.classes.problem_plotter import ProblemPlotterFacade
 from app.data_handler.load_data import (
     load_data_tsp,
     load_data_vrp,
@@ -11,9 +11,32 @@ from app.data_handler.load_data import (
     load_data_sbrp,
 )
 
+plotter = ProblemPlotterFacade()
+
+plotter.plot_problem(
+    problem_type="tsp",
+    data={
+        "depot_id": "1",
+        "locations": {
+            "1": {"coordinates": (0.5, 0.5)},
+            "2": {"coordinates": (0, 1)},
+            "3": {"coordinates": (2, 2)},
+            "4": {"coordinates": (4, 1)},
+        },
+    },
+    routes=[["1", "2", "3", "4", "1"]],
+    graph_title="Ejemplo básico",
+    depot_config={"depot_size": 20, "depot_marker_color": "lime"},
+    stop_config={"stop_marker_color": "white", "stop_font_size": 10},
+    routes_config={
+        "route_line_style": "solid",
+        "custom_colors_list": ["red"],
+    },
+)
+
 # tsp_instance = "att48"
 # data, routes = load_data_tsp(tsp_instance)
-# plot_problem(
+# plotter.plot_problem(
 #     "tsp",
 #     data,
 #     routes,
@@ -58,37 +81,16 @@ from app.data_handler.load_data import (
 
 # vrp_instance = "p1"
 # data, routes = load_data_vrp(vrp_instance)
-# plot_problem("vrp", data, routes)
+# plotter.plot_problem("vrp", data, routes)
 
 # cvrp_instance = "p31"
 # data, routes = load_data_cvrp(cvrp_instance)
-# plot_problem("cvrp", data, routes)
+# plotter.plot_problem("cvrp", data, routes)
 
 # bss_instance = "BSS_solution-2"
 # data = load_data_bss(bss_instance)
-# plot_problem("bss", data)
+# plotter.plot_problem("bss", data)
 
 # sbrp_instance = "SBRP_instance_1"
 # data, routes = load_data_sbrp(sbrp_instance, multiple_routes=True)
-# plot_problem("sbrp", data, routes)
-
-plot_problem(
-    problem_type="tsp",
-    data={
-        "depot_id": "1",
-        "locations": {
-            "1": {"coordinates": (0, 0)},
-            "2": {"coordinates": (0, 1)},
-            "3": {"coordinates": (2, 2)},
-            "4": {"coordinates": (4, 1)},
-        },
-    },
-    routes=[["1", "2", "3", "4", "1"]],
-    graph_title="Ejemplo básico",
-    depot_config={"depot_size": 20, "depot_marker_color": "lime"},
-    stop_config={"stop_marker_color": "white", "stop_font_size": 10},
-    routes_config={
-        "route_line_style": "solid",
-        "custom_colors_list": ["red"],
-    },
-)
+# plotter.plot_problem("sbrp", data, routes)
