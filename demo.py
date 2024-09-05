@@ -72,23 +72,23 @@ from app.data_handler.load_data import (
 # data, routes = load_data_sbrp(sbrp_instance, multiple_routes=True)
 # plot_problem("sbrp", data, routes)
 
-# plot_problem(
-#     problem_type="tsp",
-#     data={
-#         "depot_id": "1",
-#         "locations": {
-#             "1": {"coordinates": (0, 0)},
-#             "2": {"coordinates": (0, 1)},
-#             "3": {"coordinates": (2, 2)},
-#             "4": {"coordinates": (4, 1)},
-#         },
-#     },
-#     routes=[["1", "2", "3", "4", "1"]],
-#     graph_title="Ejemplo básico",
-#     depot_config={"depot_size": 20, "depot_marker_color": "lime"},
-#     stop_config={"stop_marker_color": "white", "stop_font_size": 10},
-#     routes_config={
-#         "route_line_style": "solid",
-#         "custom_colors_list": ["red"],
-#     },
-# )
+plot_problem(
+    problem_type="tsp",
+    data={
+        "depot_id": "1",
+        "locations": {
+            "1": {"coordinates": (0, 0)},
+            "2": {"coordinates": (0, 1)},
+            "3": {"coordinates": (2, 2)},
+            "4": {"coordinates": (4, 1)},
+        },
+    },
+    routes=[["1", "2", "3", "4", "1"]],
+    graph_title="Ejemplo básico",
+    depot_config={"depot_size": 20, "depot_marker_color": "lime"},
+    stop_config={"stop_marker_color": "white", "stop_font_size": 10},
+    routes_config={
+        "route_line_style": "solid",
+        "custom_colors_list": ["red"],
+    },
+)

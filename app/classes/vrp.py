@@ -7,10 +7,10 @@ from typing import List, Optional
 from matplotlib import pyplot as plt
 from matplotlib.lines import Line2D
 
-from app.classes.stop import Stop
+from app.classes.stop.stop import Stop
 from app.classes.passenger import Passenger
-from app.classes.depot import Depot
-from app.classes.route import Route
+from app.classes.depot.depot import Depot
+from app.classes.route.route import Route
 
 
 class VRP:
@@ -49,7 +49,7 @@ class VRP:
             cls.__instance = VRP(depot, stops, routes, passengers)
         return cls.__instance
 
-    def draw_deposit(self):
+    def draw_depot(self):
         deposit_x, deposit_y = self.depot.get_coordinates()
         plt.plot(
             deposit_x,
