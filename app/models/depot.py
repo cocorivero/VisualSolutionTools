@@ -2,8 +2,7 @@ import sys
 
 sys.path.append("./")
 
-from app.classes.point import Point
-import matplotlib.pyplot as plt
+from app.models.point import Point
 from typing import Tuple
 
 

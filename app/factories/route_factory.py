@@ -1,6 +1,6 @@
 from abc import ABC, abstractmethod
 from typing import Dict, List
-from app.classes.route.route import Route
+from app.models.route import Route
 import random
 
 
@@ -18,8 +18,9 @@ class ConcreteRouteFactory(RouteFactory):
                 "#FF0000",
                 "#00FF00",
                 "#0000FF",
-                "#FFFF00",
+                "#800000",
                 "#FF00FF",
+                "#FFFF00",
                 "#00FFFF",
                 "#800000",
                 "#808000",
@@ -52,7 +53,7 @@ class ConcreteRouteFactory(RouteFactory):
                 stops=stops,
                 line_style=routes_config.get("route_line_style", "solid"),
                 color=color,
-                thickness=routes_config.get("route_thickness", 2),
+                thickness=routes_config.get("route_thickness", 1),
             )
             created_routes.append(route)
 

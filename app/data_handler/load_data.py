@@ -386,7 +386,7 @@ def load_data_tsp(instance_name):
     tsp_data = process_files_tsp()
     data = tsp_data[instance_name]
     tsp_solutions = process_solutions_tsp()
-    routes = tsp_solutions[f"solution_{instance_name}"]
+    routes = tsp_solutions[f"Solution_{instance_name}"]
     return data, routes
 
 
@@ -394,7 +394,7 @@ def load_data_vrp(instance_name):
     vrp_data = process_files_vrp()
     data = vrp_data[instance_name]
     vrp_solutions = process_solutions_vrp()
-    routes = vrp_solutions[f"solution_{instance_name}"]
+    routes = vrp_solutions[f"Solution_{instance_name}"]
     return data, routes
 
 
@@ -402,7 +402,7 @@ def load_data_cvrp(instance_name):
     cvrp_data = process_files_cvrp()
     data = cvrp_data[instance_name]
     cvrp_solutions = process_solutions_cvrp()
-    routes = cvrp_solutions[f"solution_{instance_name}"]
+    routes = cvrp_solutions[f"Solution_{instance_name}"]
     return data, routes
 
 

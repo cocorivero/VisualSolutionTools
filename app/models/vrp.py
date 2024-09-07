@@ -1,4 +1,3 @@
-import random
 import sys
 
 
@@ -7,10 +6,10 @@ from typing import List, Optional
 from matplotlib import pyplot as plt
 from matplotlib.lines import Line2D
 
-from app.classes.stop.stop import Stop
-from app.classes.passenger import Passenger
-from app.classes.depot.depot import Depot
-from app.classes.route.route import Route
+from app.models.stop import Stop
+from app.models.passenger import Passenger
+from app.models.depot import Depot
+from app.models.route import Route
 
 
 class VRP:
@@ -190,8 +189,8 @@ class VRP:
             legend_elements = []
             for route in self.routes:
                 stop_chunks = [
-                    " -> ".join(route.stops[i : i + 3])
-                    for i in range(0, len(route.stops), 3)
+                    " -> ".join(route.stops[i : i + 5])
+                    for i in range(0, len(route.stops), 5)
                 ]
                 stops_with_breaks = "\n".join(stop_chunks)
 

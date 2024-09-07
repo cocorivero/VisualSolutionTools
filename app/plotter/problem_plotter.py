@@ -1,10 +1,10 @@
 import sys
 from matplotlib import pyplot as plt
 from typing import List, Dict
-from app.classes.vrp import VRP
-from app.classes.depot.depot_factory import ConcreteDepotFactory
-from app.classes.stop.stop_factory import ConcreteStopFactory
-from app.classes.route.route_factory import ConcreteRouteFactory
+from app.models.vrp import VRP
+from app.factories.depot_factory import ConcreteDepotFactory
+from app.factories.stop_factory import ConcreteStopFactory
+from app.factories.route_factory import ConcreteRouteFactory
 
 sys.path.append("./")
 
@@ -19,7 +19,7 @@ class ProblemPlotterFacade:
             "tsp": "Traveling Salesman Problem (TSP)",
             "vrp": "Vehicle Routing Problem (VRP)",
             "cvrp": "Capacitated Vehicle Routing Problem (CVRP)",
-            "bss": "Bus Stops Selector (BSS)",
+            "bss": "Bus Stops Selection (BSS)",
             "sbrp": "School Bus Routing Problem (SBRP)",
         }
 
@@ -59,7 +59,7 @@ class ProblemPlotterFacade:
             vrp.draw_routes()
             vrp.draw_stops()
             vrp.draw_depot()
-            vrp.draw_legend()
+            # vrp.draw_legend()
             # Configuramos el gráfico y lo mostramos
             plt.xlabel("Coordenada X")
             plt.ylabel("Coordenada Y")
