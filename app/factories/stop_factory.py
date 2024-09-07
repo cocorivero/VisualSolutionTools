@@ -1,7 +1,7 @@
 from abc import ABC, abstractmethod
 from typing import Dict, List, Tuple
-from app.classes.stop.stop import Stop
-from app.classes.passenger import Passenger
+from app.models.stop import Stop
+from app.models.passenger import Passenger
 
 
 class StopFactory(ABC):
@@ -52,7 +52,7 @@ class ConcreteStopFactory(StopFactory):
                 font_color=stop_config.get("stop_font_color", "black"),
                 font_size=stop_config.get("stop_font_size", 8),
                 demand_size=stop_config.get("stop_demand_size", 8),
-                demand_color=stop_config.get("stop_demand_color", "black"),
+                demand_color=stop_config.get("stop_demand_color", "red"),
                 marker_passenger_type=stop_config.get(
                     "stop_marker_passenger_type", "o"
                 ),
