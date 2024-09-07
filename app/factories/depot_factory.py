@@ -1,6 +1,6 @@
 from abc import ABC, abstractmethod
 from typing import Dict, Tuple
-from app.classes.depot.depot import Depot
+from app.models.depot import Depot
 
 
 class DepotFactory(ABC):

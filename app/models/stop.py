@@ -2,8 +2,8 @@ import sys
 
 sys.path.append("./")
 
-from app.classes.point import Point
-from app.classes.passenger import Passenger
+from app.models.point import Point
+from app.models.passenger import Passenger
 from typing import List, Optional, Tuple
 
 
