@@ -13,40 +13,30 @@ from app.models.route import Route
 
 
 class VRP:
-    __instance = None
-
-    def __new__(cls, *args, **kwargs):
-        if cls.__instance is None:
-            cls.__instance = super(VRP, cls).__new__(cls)
-        return cls.__instance
-
     def __init__(
         self,
+        problem_name: str,
         depot: Depot,
         stops: List[Stop],
         routes: Optional[List[Route]] = None,
         passengers: Optional[List[Passenger]] = None,
     ):
-        if not hasattr(self, "initialized"):
-            self.depot: Depot = depot
-            self.stops: List[Stop] = stops
-            self.routes: List[Route] = routes if routes is not None else []
-            self.passengers: List[Passenger] = (
-                passengers if passengers is not None else []
-            )
-            self.initialized = True
+        self.problem_name: str = problem_name
+        self.depot: Depot = depot
+        self.stops: List[Stop] = stops
+        self.routes: List[Route] = routes if routes is not None else []
+        self.passengers: List[Passenger] = passengers if passengers is not None else []
 
-    @classmethod
-    def get_instance(
-        cls,
-        depot: Depot,
-        stops: List[Stop],
-        routes: Optional[List[Route]] = None,
-        passengers: Optional[List[Passenger]] = None,
-    ):
-        if cls.__instance is None:
-            cls.__instance = VRP(depot, stops, routes, passengers)
-        return cls.__instance
+    def draw_problem_2d(self):
+        """Dibuja el problema en 2D utilizando Matplotlib."""
+        self.draw_routes()
+        self.draw_stops()
+        self.draw_depot()
+        plt.xlabel("Coordenada X")
+        plt.ylabel("Coordenada Y")
+        plt.title(self.problem_name)
+        plt.tight_layout()
+        plt.show()
 
     def draw_depot(self):
         deposit_x, deposit_y = self.depot.get_coordinates()
