@@ -8,7 +8,9 @@ __pycache__/
 
 # Distribution / packaging
 .Python
-app/demo.py
+tutorial-env
+.vscode/
+features
 build/
 develop-eggs/
 dist/
