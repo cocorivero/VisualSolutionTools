@@ -1,52 +1,28 @@
 import sys
 
-
 sys.path.append("./")
-from typing import List, Optional
-from matplotlib import pyplot as plt
-from matplotlib.lines import Line2D
 
-from app.models.stop import Stop
-from app.models.passenger import Passenger
-from app.models.depot import Depot
-from app.models.route import Route
+from matplotlib import pyplot as plt
 
 
 class VRP:
-    __instance = None
+    def __init__(self, problem_name, depot, stops, routes=None, passengers=None):
+        self.problem_name = problem_name
+        self.depot = depot
+        self.stops = stops
+        self.routes = routes if routes is not None else []
+        self.passengers = passengers if passengers is not None else []
 
-    def __new__(cls, *args, **kwargs):
-        if cls.__instance is None:
-            cls.__instance = super(VRP, cls).__new__(cls)
-        return cls.__instance
-
-    def __init__(
-        self,
-        depot: Depot,
-        stops: List[Stop],
-        routes: Optional[List[Route]] = None,
-        passengers: Optional[List[Passenger]] = None,
-    ):
-        if not hasattr(self, "initialized"):
-            self.depot: Depot = depot
-            self.stops: List[Stop] = stops
-            self.routes: List[Route] = routes if routes is not None else []
-            self.passengers: List[Passenger] = (
-                passengers if passengers is not None else []
-            )
-            self.initialized = True
-
-    @classmethod
-    def get_instance(
-        cls,
-        depot: Depot,
-        stops: List[Stop],
-        routes: Optional[List[Route]] = None,
-        passengers: Optional[List[Passenger]] = None,
-    ):
-        if cls.__instance is None:
-            cls.__instance = VRP(depot, stops, routes, passengers)
-        return cls.__instance
+    def draw_problem_2d(self):
+        """Dibuja el problema en 2D utilizando Matplotlib."""
+        self.draw_routes()
+        self.draw_stops()
+        self.draw_depot()
+        plt.xlabel("Coordenada X")
+        plt.ylabel("Coordenada Y")
+        plt.title(self.problem_name)
+        plt.tight_layout()
+        plt.show()
 
     def draw_depot(self):
         deposit_x, deposit_y = self.depot.get_coordinates()
@@ -174,41 +150,3 @@ class VRP:
                     ),
                     zorder=0,
                 )
-
-    def draw_legend(self):
-        if not self.routes:
-            plt.text(
-                1.05,
-                1,
-                "No hay rutas disponibles",
-                transform=plt.gca().transAxes,
-                fontsize=12,
-                verticalalignment="top",
-            )
-        else:
-            legend_elements = []
-            for route in self.routes:
-                stop_chunks = [
-                    " -> ".join(route.stops[i : i + 5])
-                    for i in range(0, len(route.stops), 5)
-                ]
-                stops_with_breaks = "\n".join(stop_chunks)
-
-                legend_label = f"Ruta {route.route_id}:\n{stops_with_breaks}"
-                legend_elements.append(
-                    Line2D(
-                        [0],
-                        [0],
-                        color=route.color,
-                        lw=route.thickness,
-                        label=legend_label,
-                    )
-                )
-
-            plt.legend(
-                handles=legend_elements,
-                loc="upper left",
-                bbox_to_anchor=(1.05, 1),
-                borderaxespad=0.0,
-                title="* Leyenda *",
-            )

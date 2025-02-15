@@ -1,18 +1,13 @@
 from abc import ABC
-from typing import Tuple
 
 
 class Point(ABC):
-    def __init__(
-        self,
-        id: str,
-        coordinates: Tuple[float, float],
-    ):
-        self._id: str = id
-        self._coordinates: Tuple[float, float] = coordinates
+    def __init__(self, id, coordinates):
+        self._id = id
+        self._coordinates = coordinates
 
-    def get_id(self) -> str:
+    def get_id(self):
         return self._id
 
-    def get_coordinates(self) -> Tuple[float, float]:
+    def get_coordinates(self):
         return self._coordinates
