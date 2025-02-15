@@ -2,13 +2,8 @@ import sys
 
 sys.path.append("./")
 from app.models.point import Point
-from typing import Tuple
 
 
 class Passenger(Point):
-    def __init__(
-        self,
-        id: str,
-        coordinates: Tuple[float, float],
-    ):
+    def __init__(self, id, coordinates):
         super().__init__(id, coordinates)
