@@ -11,6 +11,7 @@ __pycache__/
 tutorial-env
 .vscode/
 features
+mapa_interactivo.html
 build/
 develop-eggs/
 dist/

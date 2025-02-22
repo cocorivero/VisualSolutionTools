@@ -24,7 +24,7 @@ def process_files_tsp():
                     x_coord = float(parts[1])
                     y_coord = float(parts[2])
                     locations[str(node_id)] = {
-                        "coordinates": (x_coord, y_coord),
+                        "coords": (x_coord, y_coord),
                     }
 
                 depot_id = next(iter(locations))
@@ -83,7 +83,7 @@ def process_files_vrp():
                     x_coord = float(parts[1])
                     y_coord = float(parts[2])
                     locations[str(node_id)] = {
-                        "coordinates": (x_coord, y_coord),
+                        "coords": (x_coord, y_coord),
                     }
                 depot_id_str = str(depot_id)
                 vrp_data[instance_name] = {
@@ -141,7 +141,7 @@ def process_files_cvrp():
                     y_coord = float(parts[2])
                     capacity = int(parts[3])
                     locations[str(node_id)] = {
-                        "coordinates": (x_coord, y_coord),
+                        "coords": (x_coord, y_coord),
                         "capacity": capacity,
                     }
                 depot_id_str = str(depot_id)
@@ -195,23 +195,23 @@ def process_files_bss():
                 depots = data.get("depots", [])
                 if depots:
                     depot_id = depots[0]["id"]
-                    depot_coordinates = (
+                    depot_coords = (
                         depots[0]["coordinate_x"],
                         depots[0]["coordinate_y"],
                     )
                 else:
                     depot_id = None
-                    depot_coordinates = None
+                    depot_coords = None
 
                 locations = {}
-                if depot_id is not None and depot_coordinates is not None:
+                if depot_id is not None and depot_coords is not None:
                     locations[depot_id] = {
-                        "coordinates": depot_coordinates,
+                        "coords": depot_coords,
                         "passengers": [],
                         "capacity": 0,
                     }
 
-                passenger_coordinates_map = {
+                passenger_coords_map = {
                     passenger["id"]: (
                         passenger["coordinate_x"],
                         passenger["coordinate_y"],
@@ -221,9 +221,9 @@ def process_files_bss():
 
                 for bus_stop in data.get("bus_stops", []):
                     stop_id = bus_stop["id"]
-                    coordinates = (bus_stop["coordinate_x"], bus_stop["coordinate_y"])
+                    coords = (bus_stop["coordinate_x"], bus_stop["coordinate_y"])
                     passengers = [
-                        (passenger_id, passenger_coordinates_map[passenger_id])
+                        (passenger_id, passenger_coords_map[passenger_id])
                         for passenger_id in [
                             passenger["passenger_id"]
                             for passenger in bus_stop.get("passenger_list", [])
@@ -231,13 +231,13 @@ def process_files_bss():
                     ]
                     capacity = data.get("max_bus_stop_capacity")
                     locations[stop_id] = {
-                        "coordinates": coordinates,
+                        "coords": coords,
                         "passengers": passengers,
                         "capacity": capacity,
                     }
 
                 passengers_data = [
-                    (passenger["id"], passenger_coordinates_map[passenger["id"]])
+                    (passenger["id"], passenger_coords_map[passenger["id"]])
                     for passenger in data.get("passenger_list", [])
                 ]
 
@@ -266,18 +266,18 @@ def process_files_sbrp():
                 depots = data.get("depots", [])
                 if depots:
                     depot_id = depots[0]["id"]
-                    depot_coordinates = (
+                    depot_coords = (
                         depots[0]["coordinate_x"],
                         depots[0]["coordinate_y"],
                     )
                 else:
                     depot_id = None
-                    depot_coordinates = None
+                    depot_coords = None
 
                 locations = {}
-                if depot_id is not None and depot_coordinates is not None:
+                if depot_id is not None and depot_coords is not None:
                     locations[depot_id] = {
-                        "coordinates": depot_coordinates,
+                        "coords": depot_coords,
                         "passengers": [],
                         "capacity": 0,
                     }
@@ -292,7 +292,7 @@ def process_files_sbrp():
 
                 for bus_stop in data.get("bus_stops", []):
                     stop_id = bus_stop["id"]
-                    coordinates = (bus_stop["coordinate_x"], bus_stop["coordinate_y"])
+                    coords = (bus_stop["coordinate_x"], bus_stop["coordinate_y"])
                     passengers = [
                         (passenger_id, passengers_dict[passenger_id])
                         for passenger_id in [
@@ -302,14 +302,14 @@ def process_files_sbrp():
                     ]
                     capacity = data.get("max_bus_stop_capacity")
                     locations[stop_id] = {
-                        "coordinates": coordinates,
+                        "coords": coords,
                         "passengers": passengers,
                         "capacity": capacity,
                     }
 
                 passengers_data = [
-                    (passenger_id, coordinates)
-                    for passenger_id, coordinates in passengers_dict.items()
+                    (passenger_id, coords)
+                    for passenger_id, coords in passengers_dict.items()
                 ]
 
                 new_format_data[instance_name] = {
