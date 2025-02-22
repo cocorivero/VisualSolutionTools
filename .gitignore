@@ -10,6 +10,7 @@ __pycache__/
 .Python
 tutorial-env
 features
+mapa_interactivo.html
 build/
 develop-eggs/
 dist/

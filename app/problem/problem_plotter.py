@@ -1,5 +1,7 @@
 import sys
 from app.problem.factory_visualization import FactoryVisualizacion
+from app.problem.problem_2d import Problem2D
+from app.problem.problem_map import ProblemMap
 
 sys.path.append("./")
 
@@ -15,9 +17,9 @@ class ProblemPlotterFacade:
         depot_config=None,
         stop_config=None,
         routes_config=None,
+        passenger_config=None,
         problem_title=None,
     ):
-        # Diccionario de títulos por defecto dentro de la función
         default_problem_titles = {
             "tsp": "Traveling Salesman Problem (TSP)",
             "vrp": "Vehicle Routing Problem (VRP)",
@@ -26,7 +28,6 @@ class ProblemPlotterFacade:
             "sbrp": "School Bus Routing Problem (SBRP)",
         }
 
-        # Asignamos el título utilizando el título personalizado si se proporciona
         problem_title = problem_title or default_problem_titles.get(
             problem_type, "Tipo de problema no soportado"
         )
@@ -36,18 +37,25 @@ class ProblemPlotterFacade:
             return
 
         visualization = FactoryVisualizacion.crear_visualizacion(view_mode)
-        vrp = visualization.create_problem(
-            problem_type=problem_type,
-            problem_name=problem_title,
-            depot_id=data.get("depot_id", ""),
-            stops=data.get("locations", {}),
-            routes=routes,
-            passengers=data.get("passengers", []),
-            depot_config=depot_config or {},
-            stop_config=stop_config or {},
-            routes_config=routes_config or {},
-        )
 
-        # Graficamos el problema si fue creado correctamente
-        if vrp:
-            vrp.draw_problem_2d()
+        common_params = {
+            "problem_type": problem_type,
+            "problem_name": problem_title,
+            "depot_id": data.get("depot_id", ""),
+            "stops": data.get("locations", {}),
+            "routes": routes,
+            "passengers": data.get("passengers", []),
+            "depot_config": depot_config or {},
+            "stop_config": stop_config or {},
+            "routes_config": routes_config or {},
+            "passenger_config": passenger_config or {},
+        }
+        if isinstance(visualization, Problem2D):
+            vrp = visualization.create_problem(**common_params)
+            if vrp:
+                vrp.draw_problem_2d()
+
+        elif isinstance(visualization, ProblemMap):
+            vrp = visualization.create_problem(**common_params)
+            if vrp:
+                vrp.draw_problem_map()
