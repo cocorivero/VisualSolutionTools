@@ -9,7 +9,9 @@ __pycache__/
 # Distribution / packaging
 .Python
 tutorial-env
+.vscode/
 features
+mapa_interactivo.html
 build/
 develop-eggs/
 dist/

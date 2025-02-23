@@ -3,10 +3,21 @@ import sys
 sys.path.append("./")
 
 from matplotlib import pyplot as plt
+from app.models.depot import Depot
+from app.models.stop import Stop
+from app.models.route import Route
+from app.models.passenger import Passenger
 
 
 class VRP:
-    def __init__(self, problem_name, depot, stops, routes=None, passengers=None):
+    def __init__(
+        self,
+        problem_name,
+        depot: Depot,
+        stops: list[Stop],
+        routes: list[Route] = None,
+        passengers: list[Passenger] = None,
+    ):
         self.problem_name = problem_name
         self.depot = depot
         self.stops = stops
@@ -25,7 +36,7 @@ class VRP:
         plt.show()
 
     def draw_depot(self):
-        deposit_x, deposit_y = self.depot.get_coordinates()
+        deposit_x, deposit_y = self.depot.coords
         plt.plot(
             deposit_x,
             deposit_y,
@@ -43,7 +54,7 @@ class VRP:
         plt.text(
             deposit_x,
             deposit_y,
-            str(self.depot.get_id()),
+            str(self.depot.id),
             fontsize=self.depot.font_size,
             ha="center",
             va="center",
@@ -52,32 +63,32 @@ class VRP:
 
     def draw_stops(self):
         for stop in self.stops:
-            if stop._id != self.depot._id:
-                stop_x, stop_y = stop._coordinates
+            if stop.id != self.depot.id:
+                stop_x, stop_y = stop.coords
 
                 if stop.assigned_passengers:
                     for passenger in stop.assigned_passengers:
-                        passenger_x, passenger_y = passenger.get_coordinates()
+                        passenger_obj = self.find_passenger(passenger.id)
+                        x, y = passenger_obj.coords
                         plt.plot(
-                            passenger_x,
-                            passenger_y,
-                            marker=stop.marker_passenger_type,
-                            markersize=stop.marker_passenger_size
-                            + stop.marker_passenger_border,
-                            color=stop.marker_passenger_border_color,
+                            [stop_x, x],
+                            [stop_y, y],
+                            linestyle=passenger_obj.passenger_route_style,
+                            color=passenger_obj.passenger_route_color,
                         )
                         plt.plot(
-                            passenger_x,
-                            passenger_y,
-                            marker=stop.marker_passenger_type,
-                            markersize=stop.marker_passenger_size,
-                            color=stop.marker_passenger_color,
+                            x,
+                            y,
+                            marker=passenger_obj.marker_type,
+                            markersize=passenger_obj.size + passenger_obj.marker_border,
+                            color=passenger_obj.marker_border_color,
                         )
                         plt.plot(
-                            [stop_x, passenger_x],
-                            [stop_y, passenger_y],
-                            linestyle=stop.passenger_route_style,
-                            color=stop.passenger_route_color,
+                            x,
+                            y,
+                            marker=passenger_obj.marker_type,
+                            markersize=passenger_obj.size,
+                            color=passenger_obj.marker_color,
                         )
 
                 plt.plot(
@@ -97,7 +108,7 @@ class VRP:
                 plt.text(
                     stop_x,
                     stop_y,
-                    str(stop._id),
+                    str(stop.id),
                     fontsize=stop.font_size,
                     ha="center",
                     va="center",
@@ -121,8 +132,8 @@ class VRP:
             x_coords = []
             y_coords = []
             for stop_id in route.stops:
-                stop = next(s for s in self.stops if s._id == stop_id)
-                x, y = stop._coordinates
+                stop = next(s for s in self.stops if s.id == stop_id)
+                x, y = stop.coords
                 x_coords.append(x)
                 y_coords.append(y)
 
@@ -150,3 +161,9 @@ class VRP:
                     ),
                     zorder=0,
                 )
+
+    def find_passenger(self, passengers_id) -> Passenger:
+        for p in self.passengers:
+            if p.id == passengers_id:
+                return p
+        return None
