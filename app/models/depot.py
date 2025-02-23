@@ -1,30 +1,35 @@
 import sys
 
 sys.path.append("./")
-
-from app.models.point import Point
-from typing import Tuple
+from app.models.node import Node
 
 
-class Depot(Point):
-    def __init__(
-        self,
-        id: str,
-        coordinates: Tuple[float, float],
-        size: int,
-        marker_type: str,
-        marker_color: str,
-        marker_border: int,
-        marker_border_color: str,
-        font_color: str,
-        font_size: int,
-    ):
-        super().__init__(id, coordinates)
+class Depot(Node):
+    def __init__(self, id, coords, depot_config=None):
+        # Configuración por defecto para Depot
+        default_config = {
+            "depot_size": 18,
+            "depot_marker_type": "o",
+            "depot_marker_color": "lime",
+            "depot_marker_border": 2,
+            "depot_marker_border_color": "black",
+            "depot_font_color": "black",
+            "depot_font_size": 12,
+        }
+        depot_config = depot_config or {}
+        config = {**default_config, **depot_config}
 
-        self.size: int = size
-        self.marker_border: int = marker_border
-        self.marker_type: str = marker_type
-        self.marker_color: str = marker_color
-        self.marker_border_color: str = marker_border_color
-        self.font_color: str = font_color
-        self.font_size: int = font_size
+        # Llamada al constructor de la clase Node pasando los atributos comunes
+        super().__init__(
+            id,
+            coords,
+            size=config["depot_size"],
+            marker_type=config["depot_marker_type"],
+            marker_color=config["depot_marker_color"],
+            marker_border=config["depot_marker_border"],
+            marker_border_color=config["depot_marker_border_color"],
+        )
+
+        # Atributos específicos de Depot
+        self.font_color = config["depot_font_color"]
+        self.font_size = config["depot_font_size"]

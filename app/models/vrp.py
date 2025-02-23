@@ -1,55 +1,42 @@
 import sys
 
-
 sys.path.append("./")
-from typing import List, Optional
-from matplotlib import pyplot as plt
-from matplotlib.lines import Line2D
 
-from app.models.stop import Stop
-from app.models.passenger import Passenger
+from matplotlib import pyplot as plt
 from app.models.depot import Depot
+from app.models.stop import Stop
 from app.models.route import Route
+from app.models.passenger import Passenger
 
 
 class VRP:
-    __instance = None
-
-    def __new__(cls, *args, **kwargs):
-        if cls.__instance is None:
-            cls.__instance = super(VRP, cls).__new__(cls)
-        return cls.__instance
-
     def __init__(
         self,
+        problem_name,
         depot: Depot,
-        stops: List[Stop],
-        routes: Optional[List[Route]] = None,
-        passengers: Optional[List[Passenger]] = None,
+        stops: list[Stop],
+        routes: list[Route] = None,
+        passengers: list[Passenger] = None,
     ):
-        if not hasattr(self, "initialized"):
-            self.depot: Depot = depot
-            self.stops: List[Stop] = stops
-            self.routes: List[Route] = routes if routes is not None else []
-            self.passengers: List[Passenger] = (
-                passengers if passengers is not None else []
-            )
-            self.initialized = True
+        self.problem_name = problem_name
+        self.depot = depot
+        self.stops = stops
+        self.routes = routes if routes is not None else []
+        self.passengers = passengers if passengers is not None else []
 
-    @classmethod
-    def get_instance(
-        cls,
-        depot: Depot,
-        stops: List[Stop],
-        routes: Optional[List[Route]] = None,
-        passengers: Optional[List[Passenger]] = None,
-    ):
-        if cls.__instance is None:
-            cls.__instance = VRP(depot, stops, routes, passengers)
-        return cls.__instance
+    def draw_problem_2d(self):
+        """Dibuja el problema en 2D utilizando Matplotlib."""
+        self.draw_routes()
+        self.draw_stops()
+        self.draw_depot()
+        plt.xlabel("Coordenada X")
+        plt.ylabel("Coordenada Y")
+        plt.title(self.problem_name)
+        plt.tight_layout()
+        plt.show()
 
     def draw_depot(self):
-        deposit_x, deposit_y = self.depot.get_coordinates()
+        deposit_x, deposit_y = self.depot.coords
         plt.plot(
             deposit_x,
             deposit_y,
@@ -67,7 +54,7 @@ class VRP:
         plt.text(
             deposit_x,
             deposit_y,
-            str(self.depot.get_id()),
+            str(self.depot.id),
             fontsize=self.depot.font_size,
             ha="center",
             va="center",
@@ -76,32 +63,32 @@ class VRP:
 
     def draw_stops(self):
         for stop in self.stops:
-            if stop._id != self.depot._id:
-                stop_x, stop_y = stop._coordinates
+            if stop.id != self.depot.id:
+                stop_x, stop_y = stop.coords
 
                 if stop.assigned_passengers:
                     for passenger in stop.assigned_passengers:
-                        passenger_x, passenger_y = passenger.get_coordinates()
+                        passenger_obj = self.find_passenger(passenger.id)
+                        x, y = passenger_obj.coords
                         plt.plot(
-                            passenger_x,
-                            passenger_y,
-                            marker=stop.marker_passenger_type,
-                            markersize=stop.marker_passenger_size
-                            + stop.marker_passenger_border,
-                            color=stop.marker_passenger_border_color,
+                            [stop_x, x],
+                            [stop_y, y],
+                            linestyle=passenger_obj.passenger_route_style,
+                            color=passenger_obj.passenger_route_color,
                         )
                         plt.plot(
-                            passenger_x,
-                            passenger_y,
-                            marker=stop.marker_passenger_type,
-                            markersize=stop.marker_passenger_size,
-                            color=stop.marker_passenger_color,
+                            x,
+                            y,
+                            marker=passenger_obj.marker_type,
+                            markersize=passenger_obj.size + passenger_obj.marker_border,
+                            color=passenger_obj.marker_border_color,
                         )
                         plt.plot(
-                            [stop_x, passenger_x],
-                            [stop_y, passenger_y],
-                            linestyle=stop.passenger_route_style,
-                            color=stop.passenger_route_color,
+                            x,
+                            y,
+                            marker=passenger_obj.marker_type,
+                            markersize=passenger_obj.size,
+                            color=passenger_obj.marker_color,
                         )
 
                 plt.plot(
@@ -121,7 +108,7 @@ class VRP:
                 plt.text(
                     stop_x,
                     stop_y,
-                    str(stop._id),
+                    str(stop.id),
                     fontsize=stop.font_size,
                     ha="center",
                     va="center",
@@ -145,8 +132,8 @@ class VRP:
             x_coords = []
             y_coords = []
             for stop_id in route.stops:
-                stop = next(s for s in self.stops if s._id == stop_id)
-                x, y = stop._coordinates
+                stop = next(s for s in self.stops if s.id == stop_id)
+                x, y = stop.coords
                 x_coords.append(x)
                 y_coords.append(y)
 
@@ -175,40 +162,8 @@ class VRP:
                     zorder=0,
                 )
 
-    def draw_legend(self):
-        if not self.routes:
-            plt.text(
-                1.05,
-                1,
-                "No hay rutas disponibles",
-                transform=plt.gca().transAxes,
-                fontsize=12,
-                verticalalignment="top",
-            )
-        else:
-            legend_elements = []
-            for route in self.routes:
-                stop_chunks = [
-                    " -> ".join(route.stops[i : i + 5])
-                    for i in range(0, len(route.stops), 5)
-                ]
-                stops_with_breaks = "\n".join(stop_chunks)
-
-                legend_label = f"Ruta {route.route_id}:\n{stops_with_breaks}"
-                legend_elements.append(
-                    Line2D(
-                        [0],
-                        [0],
-                        color=route.color,
-                        lw=route.thickness,
-                        label=legend_label,
-                    )
-                )
-
-            plt.legend(
-                handles=legend_elements,
-                loc="upper left",
-                bbox_to_anchor=(1.05, 1),
-                borderaxespad=0.0,
-                title="* Leyenda *",
-            )
+    def find_passenger(self, passengers_id) -> Passenger:
+        for p in self.passengers:
+            if p.id == passengers_id:
+                return p
+        return None

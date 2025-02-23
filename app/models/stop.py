@@ -2,54 +2,50 @@ import sys
 
 sys.path.append("./")
 
-from app.models.point import Point
-from app.models.passenger import Passenger
-from typing import List, Optional, Tuple
+from app.models.node import Node
 
 
-class Stop(Point):
+class Stop(Node):
     def __init__(
         self,
-        id: str,
-        coordinates: Tuple[float, float],
-        size: int,
-        marker_type: str,
-        marker_color: str,
-        marker_border: int,
-        marker_border_color: str,
-        font_color: str,
-        font_size: int,
-        demand_size: int,
-        demand_color: str,
-        marker_passenger_type: str,
-        marker_passenger_size: int,
-        marker_passenger_color: str,
-        marker_passenger_border: int,
-        marker_passenger_border_color: str,
-        passenger_route_style: str,
-        passenger_route_color: str,
-        assigned_passengers: Optional[List[Passenger]] = None,
-        capacity: Optional[int] = None,
+        id,
+        coords,
+        stop_config=None,
+        assigned_passengers=None,
+        capacity=None,
     ):
-        super().__init__(id, coordinates)
+        # Definir valores predeterminados para la configuración de Stop
+        default_config = {
+            "stop_size": 15,
+            "stop_marker_type": "o",
+            "stop_marker_color": "white",
+            "stop_marker_border": 2,
+            "stop_marker_border_color": "black",
+            "stop_font_color": "black",
+            "stop_font_size": 8,
+            "stop_demand_size": 8,
+            "stop_demand_color": "red",
+        }
 
-        self.size: int = size
-        self.marker_border: int = marker_border
-        self.marker_type: str = marker_type
-        self.marker_color: str = marker_color
-        self.marker_border_color: str = marker_border_color
-        self.font_color: str = font_color
-        self.font_size: int = font_size
-        self.demand_size: int = demand_size
-        self.demand_color: str = demand_color
-        self.marker_passenger_type: str = marker_passenger_type
-        self.marker_passenger_size: int = marker_passenger_size
-        self.marker_passenger_color: str = marker_passenger_color
-        self.marker_passenger_border: int = marker_passenger_border
-        self.marker_passenger_border_color: str = marker_passenger_border_color
-        self.passenger_route_style: str = passenger_route_style
-        self.passenger_route_color: str = passenger_route_color
-        self.assigned_passengers: List[Passenger] = (
-            assigned_passengers if assigned_passengers is not None else []
+        # Actualizar la configuración con cualquier valor pasado
+        stop_config = stop_config or {}
+        config = {**default_config, **stop_config}
+
+        # Llamar al constructor de la clase base (Node) pasando los atributos comunes
+        super().__init__(
+            id,
+            coords,
+            size=config["stop_size"],
+            marker_type=config["stop_marker_type"],
+            marker_color=config["stop_marker_color"],
+            marker_border=config["stop_marker_border"],
+            marker_border_color=config["stop_marker_border_color"],
         )
-        self.capacity: Optional[int] = capacity
+
+        # Asignar los atributos específicos de Stop
+        self.font_color = config["stop_font_color"]
+        self.font_size = config["stop_font_size"]
+        self.demand_size = config["stop_demand_size"]
+        self.demand_color = config["stop_demand_color"]
+        self.assigned_passengers = assigned_passengers or []
+        self.capacity = capacity
