@@ -5,6 +5,7 @@ class Node(ABC):
     def __init__(
         self,
         id,
+        # name=None,
         coords,
         size=None,
         marker_type=None,

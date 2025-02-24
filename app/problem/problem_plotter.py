@@ -1,7 +1,5 @@
 import sys
-from app.problem.factory_visualization import FactoryVisualizacion
-from app.problem.problem_2d import Problem2D
-from app.problem.problem_map import ProblemMap
+from app.problem.problem import Problem
 
 sys.path.append("./")
 
@@ -36,26 +34,19 @@ class ProblemPlotterFacade:
             print(problem_title)
             return
 
-        visualization = FactoryVisualizacion.crear_visualizacion(view_mode)
+        vrp = Problem().create_problem(
+            view_mode=view_mode.lower(),
+            problem_type=problem_type,
+            problem_name=problem_title,
+            depot_id=data.get("depot_id", ""),
+            stops=data.get("locations", {}),
+            routes=routes,
+            passengers=data.get("passengers", []),
+            depot_config=depot_config or {},
+            stop_config=stop_config or {},
+            routes_config=routes_config or {},
+            passenger_config=passenger_config or {},
+        )
 
-        common_params = {
-            "problem_type": problem_type,
-            "problem_name": problem_title,
-            "depot_id": data.get("depot_id", ""),
-            "stops": data.get("locations", {}),
-            "routes": routes,
-            "passengers": data.get("passengers", []),
-            "depot_config": depot_config or {},
-            "stop_config": stop_config or {},
-            "routes_config": routes_config or {},
-            "passenger_config": passenger_config or {},
-        }
-        if isinstance(visualization, Problem2D):
-            vrp = visualization.create_problem(**common_params)
-            if vrp:
-                vrp.draw_problem_2d()
-
-        elif isinstance(visualization, ProblemMap):
-            vrp = visualization.create_problem(**common_params)
-            if vrp:
-                vrp.draw_problem_map()
+        if vrp:
+            vrp.draw_problem()

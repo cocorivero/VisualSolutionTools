@@ -15,6 +15,7 @@ class Passenger(Node):
             "passenger_marker_border_color": "black",
             "passenger_route_style": "--",
             "passenger_route_color": "grey",
+            "passenger_route_weight": 1,
         }
         passenger_config = passenger_config or {}
         config = {**default_config, **passenger_config}
@@ -33,3 +34,16 @@ class Passenger(Node):
         # Atributos específicos de Passenger
         self.passenger_route_style = config["passenger_route_style"]
         self.passenger_route_color = config["passenger_route_color"]
+        self.passenger_route_weight = config["passenger_route_weight"]
+
+    def print_passenger(self):
+        print(f"ID del Depot: {self.id}")
+        print(f"Coordenadas: {self.coords}")
+        print(f"Tamaño: {self.size}")
+        print(f"Tipo de marcador: {self.marker_type}")
+        print(f"Color del marcador: {self.marker_color}")
+        print(f"Ancho del borde del marcador: {self.marker_border}")
+        print(f"Color del borde del marcador: {self.marker_border_color}")
+        print(f"Tamaño de a ruta del pasajero: {self.passenger_route_style}")
+        print(f"Color de a ruta del pasajero: {self.passenger_route_color}")
+        print(f"Ancho de la ruta del pasajero: {self.passenger_route_weight}")
