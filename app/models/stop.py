@@ -13,12 +13,13 @@ class Stop(Node):
         stop_config=None,
         assigned_passengers=None,
         capacity=None,
+        view_mode=None,
     ):
         # Definir valores predeterminados para la configuración de Stop
         default_config = {
             "stop_size": 15,
-            "stop_marker_type": "o",
-            "stop_marker_color": "white",
+            "stop_marker_type": ("o" if view_mode == "2d" else "star"),
+            "stop_marker_color": ("white" if view_mode == "2d" else "red"),
             "stop_marker_border": 2,
             "stop_marker_border_color": "black",
             "stop_font_color": "black",
@@ -48,4 +49,20 @@ class Stop(Node):
         self.demand_size = config["stop_demand_size"]
         self.demand_color = config["stop_demand_color"]
         self.assigned_passengers = assigned_passengers or []
-        self.capacity = capacity
+        self.capacity = capacity or False
+
+    def print_stop(self):
+        print(f"ID del Depot: {self.id}")
+        print(f"Coordenadas: {self.coords}")
+        print(f"Tamaño: {self.size}")
+        print(f"Tipo de marcador: {self.marker_type}")
+        print(f"Color del marcador: {self.marker_color}")
+        print(f"Ancho del borde del marcador: {self.marker_border}")
+        print(f"Color del borde del marcador: {self.marker_border_color}")
+        print(f"Tamaño de fuente: {self.font_size}")
+        print(f"Color de fuente: {self.font_color}")
+
+        print(f"Tamaño de la demanda: {self.demand_size}")
+        print(f"Color de la demanda: {self.demand_color}")
+        print(f"Pasajeros asignados: {self.assigned_passengers}")
+        print(f"Tiene capacidad: {self.capacity}")
