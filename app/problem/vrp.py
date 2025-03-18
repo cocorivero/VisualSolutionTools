@@ -25,21 +25,6 @@ class VRP(ABC):
         """Dibuja todo el problema."""
         pass
 
-    @abstractmethod
-    def draw_depot(self):
-        """Dibuja el depósito."""
-        pass
-
-    @abstractmethod
-    def draw_stops(self):
-        """Dibuja las paradas."""
-        pass
-
-    @abstractmethod
-    def draw_routes(self):
-        """Dibuja las rutas."""
-        pass
-
     def find_passenger(self, passenger_id):
         for p in self.passengers:
             if p.id == passenger_id:

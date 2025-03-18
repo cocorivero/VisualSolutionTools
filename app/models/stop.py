@@ -13,12 +13,13 @@ class Stop(Node):
         stop_config=None,
         assigned_passengers=None,
         capacity=None,
+        view_mode=None,
     ):
         # Definir valores predeterminados para la configuración de Stop
         default_config = {
             "stop_size": 15,
-            "stop_marker_type": "o",
-            "stop_marker_color": "white",
+            "stop_marker_type": ("o" if view_mode == "2d" else "star"),
+            "stop_marker_color": ("white" if view_mode == "2d" else "red"),
             "stop_marker_border": 2,
             "stop_marker_border_color": "black",
             "stop_font_color": "black",

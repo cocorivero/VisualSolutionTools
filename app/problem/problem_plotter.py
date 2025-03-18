@@ -26,13 +26,18 @@ class ProblemPlotterFacade:
             "sbrp": "School Bus Routing Problem (SBRP)",
         }
 
-        problem_title = problem_title or default_problem_titles.get(
-            problem_type, "Tipo de problema no soportado"
-        )
-
-        if problem_title == "Tipo de problema no soportado":
-            print(problem_title)
+        # Validar que el tipo de problema sea soportado
+        if problem_type not in default_problem_titles:
+            print("Tipo de problema no soportado")
             return
+
+        # Validar que view_mode sea "2d" o "map"
+        if view_mode.lower() not in ("2d", "map"):
+            print("Modo de vista no soportado")
+            return
+
+        # Si no se pasa un título, se asigna el predeterminado
+        problem_title = problem_title or default_problem_titles[problem_type]
 
         vrp = Problem().create_problem(
             view_mode=view_mode.lower(),
