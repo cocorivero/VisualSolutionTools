@@ -6,7 +6,6 @@ from app.models.node import Node
 
 class Passenger(Node):
     def __init__(self, id, coords, passenger_config=None, view_mode=None):
-        # Configuración por defecto para Passenger
         default_config = {
             "passenger_size": 5,
             "passenger_marker_type": ("o" if view_mode == "2d" else "user"),
@@ -20,7 +19,6 @@ class Passenger(Node):
         passenger_config = passenger_config or {}
         config = {**default_config, **passenger_config}
 
-        # Inicializamos la parte común utilizando la clase base (Node)
         super().__init__(
             id,
             coords,
@@ -31,7 +29,6 @@ class Passenger(Node):
             marker_border_color=config["passenger_marker_border_color"],
         )
 
-        # Atributos específicos de Passenger
         self.passenger_route_style = config["passenger_route_style"]
         self.passenger_route_color = config["passenger_route_color"]
         self.passenger_route_weight = config["passenger_route_weight"]

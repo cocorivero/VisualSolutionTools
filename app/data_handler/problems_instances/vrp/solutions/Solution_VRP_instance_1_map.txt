@@ -1,0 +1,12 @@
+Instance: VRP_instance_6.txt
+
+Solution objective: 52034
+
+Route for vehicle 0:
+0 -> 10 -> 6 -> 3 -> 16 -> 15 -> 5 -> 8 -> 2 -> 7 -> 4 -> 13 -> 1 -> 0
+Distance of the route: 20m
+
+Route for vehicle 1:
+0 -> 14 -> 9 -> 12 -> 11 -> 0
+Distance of the route: 20m
+

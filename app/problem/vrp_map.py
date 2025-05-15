@@ -34,6 +34,7 @@ class VRP_MAP(VRP):
                         "name": stop.id,
                         "iconType": stop.marker_type,
                         "iconColor": stop.marker_color,
+                        "capacity": getattr(stop, "capacity", 0),
                     }
                     nodes_data.append(stop_data)
 
@@ -64,10 +65,8 @@ class VRP_MAP(VRP):
     def get_passenger_routes_data(self):
         arcs = []
         for stop in self.stops:
-            # Check if the stop has assigned passengers
             if stop.assigned_passengers:
                 for passenger_id in stop.assigned_passengers:
-                    # Find the passenger object with the corresponding id
                     passenger = next(
                         (p for p in self.passengers if p.id == passenger_id), None
                     )
@@ -86,7 +85,11 @@ class VRP_MAP(VRP):
             [
                 vrv.createNodesFromLocs(
                     locs=[node["coords"]],
-                    popupText=node["name"],
+                    popupText=(
+                        f"ID: {node['name']}<br>Coords: {node['coords']}<br>Capacity: {node['capacity']}"
+                        if node.get("capacity")
+                        else f"ID: {node['name']}<br>Coords: {node['coords']}"
+                    ),
                     leafletIconPrefix="fa",
                     leafletIconType=node["iconType"],
                     leafletColor=node["iconColor"],

@@ -51,7 +51,7 @@ def process_solutions_tsp():
                     if line.startswith("Route:"):
                         route_line = lines[i + 1].strip()
                         route_nodes = route_line.split(" -> ")
-                        route = [str(int(node) + 1) for node in route_nodes]
+                        route = [str(int(node)) for node in route_nodes]
                         if instance_name not in tsp_solutions:
                             tsp_solutions[instance_name] = []
                         tsp_solutions[instance_name].append(route)
@@ -139,7 +139,7 @@ def process_files_cvrp():
                     node_id = int(parts[0])
                     x_coord = float(parts[1])
                     y_coord = float(parts[2])
-                    capacity = int(parts[3])
+                    capacity = float(parts[3])
                     locations[str(node_id)] = {
                         "coords": (x_coord, y_coord),
                         "capacity": capacity,
@@ -223,11 +223,8 @@ def process_files_bss():
                     stop_id = bus_stop["id"]
                     coords = (bus_stop["coordinate_x"], bus_stop["coordinate_y"])
                     passengers = [
-                        (passenger_id, passenger_coords_map[passenger_id])
-                        for passenger_id in [
-                            passenger["passenger_id"]
-                            for passenger in bus_stop.get("passenger_list", [])
-                        ]
+                        passenger["passenger_id"]
+                        for passenger in bus_stop.get("passenger_list", [])
                     ]
                     capacity = data.get("max_bus_stop_capacity")
                     locations[stop_id] = {
@@ -294,11 +291,8 @@ def process_files_sbrp():
                     stop_id = bus_stop["id"]
                     coords = (bus_stop["coordinate_x"], bus_stop["coordinate_y"])
                     passengers = [
-                        (passenger_id, passengers_dict[passenger_id])
-                        for passenger_id in [
-                            passenger["passenger_id"]
-                            for passenger in bus_stop.get("passenger_list", [])
-                        ]
+                        passenger["passenger_id"]
+                        for passenger in bus_stop.get("passenger_list", [])
                     ]
                     capacity = data.get("max_bus_stop_capacity")
                     locations[stop_id] = {

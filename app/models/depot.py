@@ -12,7 +12,6 @@ class Depot(Node):
         view_mode,
         depot_config=None,
     ):
-        # Configuración por defecto para Depot
         default_config = {
             "depot_size": 18,
             "depot_marker_type": ("o" if view_mode == "2d" else "home"),
@@ -25,7 +24,6 @@ class Depot(Node):
         depot_config = depot_config or {}
         config = {**default_config, **depot_config}
 
-        # Llamada al constructor de la clase Node pasando los atributos comunes
         super().__init__(
             id,
             coords,
@@ -36,7 +34,6 @@ class Depot(Node):
             marker_border_color=config["depot_marker_border_color"],
         )
 
-        # Atributos específicos de Depot
         self.font_color = config["depot_font_color"]
         self.font_size = config["depot_font_size"]
 

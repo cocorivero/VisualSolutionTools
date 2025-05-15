@@ -1,6 +1,5 @@
 class Route:
     def __init__(self, route_id, stops, routes_config=None, view_mode=None):
-        # Configuración por defecto para Route
         default_config = {
             "route_line_style": "solid",
             "route_weight": (1 if view_mode == "2d" else 2),

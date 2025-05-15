@@ -88,7 +88,11 @@ class VRP_2D(VRP):
             x_coords = []
             y_coords = []
             for stop_id in route.stops:
-                stop = next(s for s in self.stops if s.id == stop_id)
+                stop = next((s for s in self.stops if s.id == stop_id), None)
+                if stop is None:
+                    raise ValueError(
+                        f"El nodo con ID '{stop_id}' en la ruta '{i+1}' no se encuentra en la lista de paradas."
+                    )
                 x, y = stop.coords
                 x_coords.append(x)
                 y_coords.append(y)
@@ -123,7 +127,6 @@ class VRP_2D(VRP):
         for passenger in stop.assigned_passengers:
             passenger_obj = self.find_passenger(passenger)
             x, y = passenger_obj.coords
-            # Dibuja la línea que conecta el stop con el pasajero
             plt.plot(
                 [stop_x, x],
                 [stop_y, y],
@@ -131,7 +134,6 @@ class VRP_2D(VRP):
                 color=passenger_obj.passenger_route_color,
                 linewidth=passenger_obj.passenger_route_weight,
             )
-            # Dibuja el marcador del pasajero (borde)
             plt.plot(
                 x,
                 y,
@@ -139,7 +141,6 @@ class VRP_2D(VRP):
                 markersize=passenger_obj.size + passenger_obj.marker_border,
                 color=passenger_obj.marker_border_color,
             )
-            # Dibuja el marcador del pasajero (interior)
             plt.plot(
                 x,
                 y,

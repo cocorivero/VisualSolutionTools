@@ -22,7 +22,6 @@ class VRP(ABC):
 
     @abstractmethod
     def draw_problem(self):
-        """Dibuja todo el problema."""
         pass
 
     def find_passenger(self, passenger_id):

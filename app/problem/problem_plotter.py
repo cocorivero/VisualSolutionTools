@@ -20,23 +20,23 @@ class ProblemPlotterFacade:
     ):
         default_problem_titles = {
             "tsp": "Traveling Salesman Problem (TSP)",
-            "vrp": "Vehicle Routing Problem (VRP)",
+            "vrp": "Distance Vehicle Routing Problem (DVRP)",
             "cvrp": "Capacitated Vehicle Routing Problem (CVRP)",
             "bss": "Bus Stops Selection (BSS)",
             "sbrp": "School Bus Routing Problem (SBRP)",
         }
-
-        # Validar que el tipo de problema sea soportado
+        
+        # Validate that the problem type is supported
         if problem_type not in default_problem_titles:
             print("Tipo de problema no soportado")
             return
 
-        # Validar que view_mode sea "2d" o "map"
+        # Validate that view_mode is either "2d" or "map"
         if view_mode.lower() not in ("2d", "map"):
             print("Modo de vista no soportado")
             return
 
-        # Si no se pasa un título, se asigna el predeterminado
+        # If no title is provided, assign the default one
         problem_title = problem_title or default_problem_titles[problem_type]
 
         vrp = Problem().create_problem(

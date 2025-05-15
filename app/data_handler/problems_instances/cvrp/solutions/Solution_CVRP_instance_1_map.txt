@@ -1,0 +1,16 @@
+Instance: p31.txt
+
+Objective: 552
+
+Route for vehicle 0:
+0 Load(0) ->  3 Load(13) ->  1 Load(18) ->  4 Load(34) ->  2 Load(58) ->  0 Load(58)
+Distance of the route: 234m
+Load of the route: 58
+
+Route for vehicle 1:
+0 Load(0) ->  6 Load(23) ->  5 Load(43) ->  7 Load(63) ->  0 Load(71)
+Distance of the route: 318m
+Load of the route: 71
+
+Total distance of all routes: 552m
+Total load of all routes: 129

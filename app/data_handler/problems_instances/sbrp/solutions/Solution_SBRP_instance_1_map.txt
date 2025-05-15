@@ -1,0 +1,8 @@
+Instance: 3
+
+Objective: 179
+
+Route for vehicle 0:
+ 0 -> 1 -> 2 -> 3 -> 4 -> 0
+
+Distance of the route: 179m

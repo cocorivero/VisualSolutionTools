@@ -15,7 +15,6 @@ class Stop(Node):
         capacity=None,
         view_mode=None,
     ):
-        # Definir valores predeterminados para la configuración de Stop
         default_config = {
             "stop_size": 15,
             "stop_marker_type": ("o" if view_mode == "2d" else "star"),
@@ -28,11 +27,9 @@ class Stop(Node):
             "stop_demand_color": "red",
         }
 
-        # Actualizar la configuración con cualquier valor pasado
         stop_config = stop_config or {}
         config = {**default_config, **stop_config}
 
-        # Llamar al constructor de la clase base (Node) pasando los atributos comunes
         super().__init__(
             id,
             coords,
@@ -43,7 +40,6 @@ class Stop(Node):
             marker_border_color=config["stop_marker_border_color"],
         )
 
-        # Asignar los atributos específicos de Stop
         self.font_color = config["stop_font_color"]
         self.font_size = config["stop_font_size"]
         self.demand_size = config["stop_demand_size"]
@@ -52,7 +48,7 @@ class Stop(Node):
         self.capacity = capacity or False
 
     def print_stop(self):
-        print(f"ID del Depot: {self.id}")
+        print(f"ID de la Parada: {self.id}")
         print(f"Coordenadas: {self.coords}")
         print(f"Tamaño: {self.size}")
         print(f"Tipo de marcador: {self.marker_type}")

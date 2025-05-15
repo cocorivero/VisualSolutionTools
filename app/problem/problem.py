@@ -24,7 +24,7 @@ class Problem:
         passenger_config,
     ):
 
-        # Creamos los objetos necesarios usando las fábricas
+        # Create the required objects using the factory methods
         depot = self.create_depot(
             depot_id=depot_id, stops=stops, config=depot_config, view_mode=view_mode
         )
@@ -35,7 +35,7 @@ class Problem:
             routes=routes, routes_config=routes_config, view_mode=view_mode
         )
 
-        # Creamos los argumentos para la instancia de VRP
+        # Create the arguments for the VRP instance
         vrp_args = {
             "problem_name": problem_name,
             "depot": depot,
@@ -43,12 +43,12 @@ class Problem:
             "routes": routes,
         }
 
-        # Agregamos pasajeros si el problema lo requiere
+        # Add passengers if the problem requires it
         if problem_type in ["bss", "sbrp"]:
             vrp_args["passengers"] = self.create_passengers(
                 passengers, passenger_config, view_mode=view_mode
             )
-        # Verificamos si el tipo de problema es soportado y creamos la instancia de VRP
+        # Check if the problem type is supported and create the VRP instance
         if problem_type in ["vrp", "tsp", "cvrp", "bss", "sbrp"]:
             if view_mode == "2d":
                 return VRP_2D(**vrp_args)
@@ -71,9 +71,7 @@ class Problem:
     def create_routes(self, routes, routes_config, view_mode):
         created_routes = []
         for i, stops in enumerate(routes):
-            # Calculamos el color usando la función auxiliar
             color = get_route_color(i, routes_config)
-            # Creamos una configuración específica para esta ruta, inyectando el color
             route_config = {**routes_config, "default_color": color}
             route = Route(
                 route_id=i + 1,
@@ -89,7 +87,7 @@ class Problem:
         stops = []
         for stop_id, data in stop_data.items():
             assigned_passengers = (
-                [passenger[0] for passenger in data["passengers"]]
+                [passenger for passenger in data["passengers"]]
                 if "passengers" in data
                 else []
             )
